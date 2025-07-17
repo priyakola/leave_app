@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="018dd865c332ea10a7f1b813e40131de" label="Leave Request" max_length="40" name="x_1800027_leve_sys_leave_request" type="collection">
+        <element attributes="edge_encryption_enabled=true" label="Updated on" max_length="40" name="updated_on" type="string"/>
+        <element attributes="edge_encryption_enabled=true" label="Approval comments" mandatory="true" max_length="4000" name="approval_comments" type="string"/>
+        <element attributes="encode_utf8=false" label="Country" mandatory="true" max_length="32" name="country" reference="core_country" type="reference"/>
+        <element label="Is half day" mandatory="true" max_length="40" name="is_half_day" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" label="End date" mandatory="true" max_length="40" name="end_date" type="glide_date_time"/>
+        <element attributes="edge_encryption_enabled=true" label="Start date" mandatory="true" max_length="40" name="start_date" type="glide_date_time"/>
+        <element attributes="edge_encryption_enabled=true" label="Reason" mandatory="true" max_length="4000" name="reason" type="string"/>
+        <element attributes="edge_encryption_enabled=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
+        <element attributes="encode_utf8=false" label="Approver" max_length="32" name="approver" reference="sys_user" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Status" mandatory="true" max_length="40" name="status" type="choice">
+            <choice/>
+        </element>
+        <element label="Duration" mandatory="true" max_length="15" name="duration" type="decimal"/>
+        <element attributes="edge_encryption_enabled=true" label="Created on" max_length="40" name="created_on" type="string"/>
+        <element attributes="edge_encryption_enabled=true" choice="1" label="Half day period" max_length="40" name="half_day_period" type="choice">
+            <choice/>
+        </element>
+        <element attributes="encode_utf8=false" label="Requested by" mandatory="true" max_length="32" name="requested_by" reference="sys_user" type="reference"/>
+        <element attributes="encode_utf8=false" label="Leave type" mandatory="true" max_length="32" name="leave_type" reference="x_1800027_leve_sys_leave_type" type="reference"/>
+        <element default="javascript:current.getTableName();" label="Class" max_length="80" name="sys_class_name" type="sys_class_name"/>
+        <index name="index">
+            <element name="approver"/>
+        </index>
+        <index name="index2">
+            <element name="country"/>
+        </index>
+        <index name="index3">
+            <element name="leave_type"/>
+        </index>
+        <index name="index4">
+            <element name="requested_by"/>
+        </index>
+        <index name="index5">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>

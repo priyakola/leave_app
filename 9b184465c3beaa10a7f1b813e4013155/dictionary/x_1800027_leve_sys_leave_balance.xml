@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="e1dad4a1c332ea10a7f1b813e401313a" label="Leave Balance" max_length="40" name="x_1800027_leve_sys_leave_balance" type="collection">
+        <element label="Available balance" mandatory="true" max_length="15" name="available_balance" type="decimal"/>
+        <element attributes="encode_utf8=false" label="Employee" mandatory="true" max_length="32" name="employee" reference="sys_user" type="reference"/>
+        <element label="Total balance" mandatory="true" max_length="15" name="total_balance" type="decimal"/>
+        <element label="Used balance" mandatory="true" max_length="15" name="used_balance" type="decimal"/>
+        <element label="Carry forward balance" max_length="15" name="carry_forward_balance" type="decimal"/>
+        <element attributes="encode_utf8=false" label="Leave type" mandatory="true" max_length="32" name="leave_type" reference="x_1800027_leve_sys_leave_type" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Last updated" mandatory="true" max_length="40" name="last_updated" type="glide_date"/>
+        <element label="Year" mandatory="true" max_length="40" name="year" type="integer"/>
+        <element default="javascript:current.getTableName();" label="Class" max_length="80" name="sys_class_name" type="sys_class_name"/>
+        <index name="index">
+            <element name="employee"/>
+        </index>
+        <index name="index2">
+            <element name="leave_type"/>
+        </index>
+        <index name="index3">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>

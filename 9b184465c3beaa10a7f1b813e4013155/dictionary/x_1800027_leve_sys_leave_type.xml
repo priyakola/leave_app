@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="bcd2dca5c3feaa10a7f1b813e40131e6" label="Leave Type" max_length="40" name="x_1800027_leve_sys_leave_type" type="collection">
+        <element label="Max days" mandatory="true" max_length="40" name="max_days" type="integer"/>
+        <element label="Requires approval" mandatory="true" max_length="40" name="requires_approval" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
+        <element label="Is active" mandatory="true" max_length="40" name="is_active" type="boolean"/>
+        <element label="Carry forward allowed" mandatory="true" max_length="40" name="carry_forward_allowed" type="boolean"/>
+        <element default="javascript:current.getTableName();" label="Class" max_length="80" name="sys_class_name" type="sys_class_name"/>
+        <element label="Max carry forward" max_length="40" name="max_carry_forward" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Name" mandatory="true" max_length="100" name="name" type="string"/>
+        <element label="Min notice" mandatory="true" max_length="40" name="min_notice" type="integer"/>
+        <element label="Is paid" mandatory="true" max_length="40" name="is_paid" type="boolean"/>
+        <index name="index">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>

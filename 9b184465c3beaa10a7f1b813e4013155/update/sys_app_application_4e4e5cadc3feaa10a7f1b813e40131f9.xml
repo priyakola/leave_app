@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_application">
+    <sys_app_application action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <category display_value="">Custom Applications</category>
+        <description>A comprehensive leave management solution for global organizations</description>
+        <device_type>browser</device_type>
+        <hint>A comprehensive leave management solution for global organizations</hint>
+        <name/>
+        <order/>
+        <roles>x_1800027_leve_sys.leave_user,x_1800027_leve_sys.leave_manager,x_1800027_leve_sys.leave_hr_admin</roles>
+        <sys_class_name>sys_app_application</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 07:45:51</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>4e4e5cadc3feaa10a7f1b813e40131f9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Leave Management System</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_app_application_4e4e5cadc3feaa10a7f1b813e40131f9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-17 07:45:51</sys_updated_on>
+        <title>Leave Management System</title>
+        <view_name/>
+    </sys_app_application>
+</record_update>

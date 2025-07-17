@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_app">
+    <sys_app action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <can_edit_in_studio>true</can_edit_in_studio>
+        <enforce_license>none</enforce_license>
+        <guided_setup_guid/>
+        <hide_on_ui>false</hide_on_ui>
+        <ide_created>DS</ide_created>
+        <installed_as_dependency>false</installed_as_dependency>
+        <js_level>es_latest</js_level>
+        <licensable>true</licensable>
+        <license/>
+        <license_category>none</license_category>
+        <license_definition/>
+        <license_model>none</license_model>
+        <logo>af180429c3beaa10a7f1b813e4013197</logo>
+        <menu/>
+        <name>Leave Management System</name>
+        <package_json/>
+        <private>false</private>
+        <restrict_table_access>false</restrict_table_access>
+        <runtime_access_tracking>permissive</runtime_access_tracking>
+        <scope>x_1800027_leve_sys</scope>
+        <scoped_administration>false</scoped_administration>
+        <short_description>A comprehensive leave management solution for global organizations</short_description>
+        <source>x_1800027_leve_sys</source>
+        <store_correlation_id/>
+        <store_url/>
+        <subscription_entitlement/>
+        <sys_class_name>sys_app</sys_class_name>
+        <sys_code/>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 06:08:59</sys_created_on>
+        <sys_id>9b184465c3beaa10a7f1b813e4013155</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-17 06:09:01</sys_updated_on>
+        <template/>
+        <trackable>true</trackable>
+        <uninstall_blocked>false</uninstall_blocked>
+        <user_role/>
+        <vendor/>
+        <vendor_prefix/>
+        <version>1.0.0</version>
+    </sys_app>
+    <sys_translated_text action="delete_multiple" query="documentkey=9b184465c3beaa10a7f1b813e4013155"/>
+    <sys_attachment action="INSERT_OR_UPDATE">
+        <average_image_color/>
+        <chunk_size_bytes>700000</chunk_size_bytes>
+        <compressed>true</compressed>
+        <content_type>image/png</content_type>
+        <file_name>logo</file_name>
+        <hash>b01acfcbddb30e8c6df431e3c35f8a5a3e5dfdcdc88d42874d05502a3fe641a4</hash>
+        <image_height>225</image_height>
+        <image_width>225</image_width>
+        <size_bytes>1377</size_bytes>
+        <size_compressed>1363</size_compressed>
+        <state>available</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 06:09:01</sys_created_on>
+        <sys_id>af180429c3beaa10a7f1b813e4013197</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-17 06:09:01</sys_updated_on>
+        <table_name>sys_app</table_name>
+        <table_sys_id>9b184465c3beaa10a7f1b813e4013155</table_sys_id>
+    </sys_attachment>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>H4sIAAAAAAAA/w==</data>
+        <length>16</length>
+        <position>0</position>
+        <sys_attachment display_value="logo" sys_id="af180429c3beaa10a7f1b813e4013197">af180429c3beaa10a7f1b813e4013197</sys_attachment>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 06:09:01</sys_created_on>
+        <sys_id>ef180429c3beaa10a7f1b813e4013197</sys_id>
+    </sys_attachment_doc>
+    <sys_attachment_doc action="INSERT_OR_UPDATE">
+        <data>fZR7ONMLGMc1wmQn2XEayrpYcjiZmUtCwtQew4qaS2MbNkmsmkuiRy6/cslZx7GcXELiOZI5LsVSpoWKmrMM2+TkWKTN3JPLOPzRH53zPOd9vu/n+77/vM/71zcD73UUomWgpaKiAsEeczux7sMbram6TvC5PcfWLQaP88Wsra2tj05OThUVFW1tbRgM5vXr13V1dVlZWRKJBIfDlZWV0en06urq9vZ2BoMxNzdXUFCQlJQEh8P19PTIZLJCoeBwOL29vQgEIicnRyqVjo2Npaam+vj4mJubo9FoFApFo9F0dHQoFAoej2exWGW79v+koqJWiXU74htfOFEkc/kbqeMeOP0M0xB+RC0dQxha2xaXt9m+CItqzMCJJlcQuaP7772UCsw33v9XrWqoxx1SjwWVoeL5W7tPbpK5Ls4EQGsHd7BLtK57HB/Vo4JBdTHWJBGn3bO5OsipFazhcDM5yO79bbVIiW3z7i0XlFfsSL1oEg4UtbEnwfqu7lYFft+ANqxCfR0oUr7BOl4kkyPe/EX3qGnV1MguUB9kJi9/9hyqlx8e23kvscdY+XA40xy6Sljg5Q1QDXRaDsWoSqymDWt41vmdZnZ2MTIK/dJosMDZXonaEQ2HxX6Vrg3B66OOTESk8zlE7t36QbYN4K0oY7ACLUsmrCEl2KsEWvMlQ1c+KG3OPxsMjqez7poZkDR5e5GhXOYmniPSmFsL0tZHhhaKmV4I075HgmRn6hKUI+1TmmDDjuV2Zh68gwDjqyV96uUo41xfRalnOvZt8qf4LiXCk5ZPtFDEzU2iJ5Tu3BWd9129lVYNIG0wEg3+H5yCaGQJOwvOip4fhDnJA3xe+YuagNn7Djj9xbRrI9btDXRf3pJAb7ulbdP3wsNVvruqhn3P5Le6QQtvIrwF56Bva/EWHxbMKyI6tjwgiD23CaemKyGyAo2+MapfdOKV81Qg8WIamiYk80yC2AzjU3GQzpaA87QAGsSkpS/PD1lVmjAZdplHCBqPbpaeKf4iEIXY3inKLRUoi/vHxQ76QqYy4RDTqPu+kpbuMsXqHy9c+lky+9Ts4mZ2yvNPU+NH/ejtMoaFti0qoSqq+zvTH7afpksPRD1nrhCGWjC0lPcDPkMA+YhsvjrnZVAaPHKSnwvh+T+gLBBPGuISh4Odw3i18WyhPKB/340/VCtviZFS7xOLb3Rt9twqHfG/AZtxDBE8QcjNzVLHQXuBZ1aFFlHQJbGMvsbNJHfUM+alJT39Rj/aO1O1s5YOcJa8X6Qk1ciGf7PspkbKMQpLMnKbfXvItZ28yA77xg/T3NBS9gMHhkkd2VJzZGU+cDSmeCHYlXy6wk9ezKVXGwTiiDT/2bHFVqmISSgrNrgesV8KuAHiPrm6gYDkcn5HrJYreXDfiPzaFG0JXWA9cbbSKvtmZTM5LDq9GTSpb2UKCZGK3YfD3x1UUiF6lRnWl/VSHHk9lyh8SLAuqQefwIGL0EWXG8I/dj2OQhOPLwOKzpw9wvxeOrQLD/NIKpWtX+weagDaCMwX0NFV9Ig3bKamPpsyuxPukbSgxm9ynLz1iJyfF9HTGJqZCSUKDDvKn2q15TYtUPprbVgzCMUTmI3xueXVwqow3qv5X5epCJwhdfbdQNzAaGPIQ8ia/Wf3J7Hsk/VRA0YwXVK47rf45RTwpw1QXi40fVykBrzT+KrOs/Gr0a6CN1tvd7SKr7MvTBgFtV38chuo2M1fnUjmhNGA6QlbsZUkiMjI64+t9/tvunAzFlXjVMLwsbRdGyGqgsV4udW4kFL+AbYsoqlhBQAA</data>
+        <length>1804</length>
+        <position>1</position>
+        <sys_attachment display_value="logo" sys_id="af180429c3beaa10a7f1b813e4013197">af180429c3beaa10a7f1b813e4013197</sys_attachment>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 06:09:01</sys_created_on>
+        <sys_id>63180429c3beaa10a7f1b813e4013198</sys_id>
+    </sys_attachment_doc>
+</record_update>

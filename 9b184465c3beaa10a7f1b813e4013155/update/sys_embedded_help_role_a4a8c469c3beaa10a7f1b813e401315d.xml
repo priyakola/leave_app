@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_embedded_help_role">
+    <sys_embedded_help_role action="INSERT_OR_UPDATE">
+        <order>1000</order>
+        <role display_value="x_1800027_leve_sys.leave_user" name="x_1800027_leve_sys.leave_user">e0a8c469c3beaa10a7f1b813e401315b</role>
+        <sys_class_name>sys_embedded_help_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 06:11:16</sys_created_on>
+        <sys_id>a4a8c469c3beaa10a7f1b813e401315d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>e0a8c469c3beaa10a7f1b813e401315b</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_embedded_help_role_a4a8c469c3beaa10a7f1b813e401315d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-17 06:11:16</sys_updated_on>
+    </sys_embedded_help_role>
+</record_update>

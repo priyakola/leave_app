@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="65e8dcedc3feaa10a7f1b813e40131f9" label="Holiday" max_length="40" name="x_1800027_leve_sys_holiday" type="collection">
+        <element default="javascript:current.getTableName();" label="Class" max_length="80" name="sys_class_name" type="sys_class_name"/>
+        <element label="Is recurring" mandatory="true" max_length="40" name="is_recurring" type="boolean"/>
+        <element attributes="encode_utf8=false" label="Country" mandatory="true" max_length="32" name="country" reference="core_country" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" label="Description" max_length="4000" name="description" type="string"/>
+        <element label="Year" max_length="40" name="year" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Holiday date" mandatory="true" max_length="40" name="holiday_date" type="glide_date"/>
+        <element attributes="edge_encryption_enabled=true" label="Holiday name" mandatory="true" max_length="100" name="holiday_name" type="string"/>
+        <index name="index">
+            <element name="country"/>
+        </index>
+        <index name="index2">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>

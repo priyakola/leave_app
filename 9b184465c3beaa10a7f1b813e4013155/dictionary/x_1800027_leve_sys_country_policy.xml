@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><database>
+    <element db_object_id="c857dc6dc3feaa10a7f1b813e401314f" label="Country Policy" max_length="40" name="x_1800027_leve_sys_country_policy" type="collection">
+        <element label="Max annual leave" mandatory="true" max_length="40" name="max_annual_leave" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Weekend days" mandatory="true" max_length="40" name="weekend_days" type="string"/>
+        <element label="Carry forward allowed" max_length="40" name="carry_forward_allowed" type="boolean"/>
+        <element attributes="edge_encryption_enabled=true" label="Working days per week" mandatory="true" max_length="40" name="working_days_per_week" type="string"/>
+        <element attributes="encode_utf8=false" label="Country" mandatory="true" max_length="32" name="country" reference="core_country" type="reference"/>
+        <element label="Notice period" max_length="40" name="notice_period" type="integer"/>
+        <element label="Max carry forward" max_length="40" name="max_carry_forward" type="integer"/>
+        <element attributes="edge_encryption_enabled=true" label="Policy name" max_length="100" name="policy_name" type="string"/>
+        <element label="Probation period" mandatory="true" max_length="40" name="probation_period" type="integer"/>
+        <element default="javascript:current.getTableName();" label="Class" max_length="80" name="sys_class_name" type="sys_class_name"/>
+        <index name="index">
+            <element name="country"/>
+        </index>
+        <index name="index2">
+            <element name="sys_class_name"/>
+        </index>
+    </element>
+</database>
