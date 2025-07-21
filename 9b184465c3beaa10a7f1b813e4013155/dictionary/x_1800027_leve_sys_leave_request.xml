@@ -8,14 +8,21 @@
         <element attributes="edge_encryption_enabled=true" label="Start date" mandatory="true" max_length="40" name="start_date" type="glide_date_time"/>
         <element attributes="edge_encryption_enabled=true" label="Reason" mandatory="true" max_length="4000" name="reason" type="string"/>
         <element attributes="edge_encryption_enabled=true" default="javascript:global.getNextObjNumberPadded();" label="Number" max_length="40" name="number" type="string"/>
-        <element attributes="encode_utf8=false" label="Approver" max_length="32" name="approver" reference="sys_user" type="reference"/>
-        <element attributes="edge_encryption_enabled=true" choice="1" label="Status" mandatory="true" max_length="40" name="status" type="choice">
-            <choice/>
+        <element attributes="encode_utf8=false" label="Approver" mandatory="true" max_length="32" name="approver" reference="sys_user" type="reference"/>
+        <element attributes="edge_encryption_enabled=true" choice="3" default="requested" label="Status" mandatory="true" max_length="40" name="status" type="choice">
+            <choice>
+                <element inactive_on_update="false" label="requested" sequence="1" value="requested"/>
+                <element inactive_on_update="false" label="declined" sequence="2" value="declined"/>
+                <element inactive_on_update="false" label="approved" sequence="0" value="approved"/>
+            </choice>
         </element>
-        <element label="Duration" mandatory="true" max_length="15" name="duration" type="decimal"/>
+        <element attributes="edge_encryption_enabled=true" label="Duration" mandatory="true" max_length="15" name="duration" read_only="true" type="decimal"/>
         <element attributes="edge_encryption_enabled=true" label="Created on" max_length="40" name="created_on" type="string"/>
-        <element attributes="edge_encryption_enabled=true" choice="1" label="Half day period" max_length="40" name="half_day_period" type="choice">
-            <choice/>
+        <element attributes="edge_encryption_enabled=true" choice="3" default="javascript:ChangeModel.getDefaultTypeValue()" dynamic_default_value="d1442bd4c3c02010b1343f52c1d3aea5" label="Half day period" mandatory="true" max_length="40" name="half_day_period" type="choice" use_dependent_field="true" use_dynamic_default="true">
+            <choice>
+                <element inactive_on_update="false" label="second half" sequence="1" value="second half"/>
+                <element inactive_on_update="false" label="first half" sequence="0" value="first_half"/>
+            </choice>
         </element>
         <element attributes="encode_utf8=false" label="Requested by" mandatory="true" max_length="32" name="requested_by" reference="sys_user" type="reference"/>
         <element attributes="encode_utf8=false" label="Leave type" mandatory="true" max_length="32" name="leave_type" reference="x_1800027_leve_sys_leave_type" type="reference"/>

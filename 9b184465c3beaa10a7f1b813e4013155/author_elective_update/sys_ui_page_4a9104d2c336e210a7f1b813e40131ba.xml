@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_page">
+    <sys_ui_page action="DELETE">
+        <category>general</category>
+        <client_script/>
+        <description/>
+        <direct>false</direct>
+        <endpoint>x_1800027_leve_sys_Approve leave processor.do</endpoint>
+        <html><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide">
+    <g:evaluate var="jvar_sys_id" expression="RP.getParameterValue('sysparm_sys_id')" />
+    
+    <g:evaluate>
+    var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+    if (gr.get(jvar_sys_id)) {
+        gr.setWorkflow(false);
+        gr.status = 'approved';
+        if (gr.update()) {
+            gs.addInfoMessage('Leave request approved');
+        } else {
+            gs.error('Failed to approve: ' + gr.getLastErrorMessage());
+            gs.addErrorMessage('Failed to approve leave request');
+        }
+    }
+    </g:evaluate>
+    
+    <script>
+    window.onload = function() {
+        window.location.href = 'x_1800027_leve_sys_leave_request.do?sys_id=${jvar_sys_id}';
+    };
+    </script>
+    
+    <p>Processing approval...</p>
+</j:jelly>]]></html>
+        <name>Approve leave processor</name>
+        <processing_script/>
+        <sys_class_name>sys_ui_page</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 13:36:31</sys_created_on>
+        <sys_id>4a9104d2c336e210a7f1b813e40131ba</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Approve leave processor</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_ui_page_4a9104d2c336e210a7f1b813e40131ba</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:36:31</sys_updated_on>
+    </sys_ui_page>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_ui_page_4a9104d2c336e210a7f1b813e40131ba</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_page"&gt;&lt;sys_ui_page action="INSERT_OR_UPDATE"&gt;&lt;category&gt;general&lt;/category&gt;&lt;client_script/&gt;&lt;description/&gt;&lt;direct&gt;false&lt;/direct&gt;&lt;endpoint&gt;x_1800027_leve_sys_Approve leave processor.do&lt;/endpoint&gt;&lt;html&gt;&lt;![CDATA[&lt;?xml version="1.0" encoding="utf-8" ?&gt;
+&lt;j:jelly trim="false" xmlns:j="jelly:core" xmlns:g="glide"&gt;
+    &lt;g:evaluate var="jvar_sys_id" expression="RP.getParameterValue('sysparm_sys_id')" /&gt;
+    
+    &lt;g:evaluate&gt;
+    var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+    if (gr.get(jvar_sys_id)) {
+        gr.setWorkflow(false);
+        gr.status = 'approved';
+        if (gr.update()) {
+            gs.addInfoMessage('Leave request approved');
+        } else {
+            gs.error('Failed to approve: ' + gr.getLastErrorMessage());
+            gs.addErrorMessage('Failed to approve leave request');
+        }
+    }
+    &lt;/g:evaluate&gt;
+    
+    &lt;script&gt;
+    window.onload = function() {
+        window.location.href = 'x_1800027_leve_sys_leave_request.do?sys_id=${jvar_sys_id}';
+    };
+    &lt;/script&gt;
+    
+    &lt;p&gt;Processing approval...&lt;/p&gt;
+&lt;/j:jelly&gt;]]&gt;&lt;/html&gt;&lt;name&gt;Approve leave processor&lt;/name&gt;&lt;processing_script/&gt;&lt;sys_class_name&gt;sys_ui_page&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-19 13:36:31&lt;/sys_created_on&gt;&lt;sys_id&gt;4a9104d2c336e210a7f1b813e40131ba&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;Approve leave processor&lt;/sys_name&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_page_4a9104d2c336e210a7f1b813e40131ba&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-19 13:36:31&lt;/sys_updated_on&gt;&lt;/sys_ui_page&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1705814427</payload_hash>
+        <record_name>Approve leave processor</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 13:36:31</sys_created_on>
+        <sys_id>d2b18c92c336e210a7f1b813e4013100</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19822e68c010000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:36:31</sys_updated_on>
+        <type>UI Page</type>
+        <update_guid>d6b14c926f36e21058ff975ede185dff</update_guid>
+        <update_guid_history>d6b14c926f36e21058ff975ede185dff:1705814427</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 13:39:48</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_page">sys_ui_page</sys_db_object>
+        <sys_id>051ace4978434902860125576e87ec31</sys_id>
+        <sys_metadata>4a9104d2c336e210a7f1b813e40131ba</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Approve leave processor</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_ui_page_4a9104d2c336e210a7f1b813e40131ba</sys_update_name>
+        <sys_update_version display_value="sys_ui_page_4a9104d2c336e210a7f1b813e40131ba">d2b18c92c336e210a7f1b813e4013100</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:39:48</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

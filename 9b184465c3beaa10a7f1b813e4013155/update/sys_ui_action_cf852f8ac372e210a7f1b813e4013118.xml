@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_action">
+    <sys_ui_action action="INSERT_OR_UPDATE">
+        <action_name/>
+        <active>true</active>
+        <client>false</client>
+        <client_script_v2><![CDATA[function onClick(g_form) {
+
+}]]></client_script_v2>
+        <comments/>
+        <condition>current.status == 'requested'</condition>
+        <form_action>true</form_action>
+        <form_button>true</form_button>
+        <form_button_v2>false</form_button_v2>
+        <form_context_menu>false</form_context_menu>
+        <form_link>false</form_link>
+        <form_menu_button_v2>false</form_menu_button_v2>
+        <form_style/>
+        <format_for_configurable_workspace>false</format_for_configurable_workspace>
+        <hint/>
+        <isolate_script>false</isolate_script>
+        <list_action>false</list_action>
+        <list_banner_button>false</list_banner_button>
+        <list_button>false</list_button>
+        <list_choice>false</list_choice>
+        <list_context_menu>false</list_context_menu>
+        <list_link>false</list_link>
+        <list_save_with_form_button>false</list_save_with_form_button>
+        <list_style/>
+        <messages/>
+        <name>Decline</name>
+        <onclick/>
+        <order>100</order>
+        <script><![CDATA[// Get the current record ID
+var sysId = current.sys_id;
+
+// Log for debugging
+gs.info('=== Rejecting Leave Request ===');
+gs.info('Record ID: ' + sysId);
+gs.info('Current Status: ' + current.status);
+
+// Create a new GlideRecord to update the record
+var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+if (gr.get(sysId)) {
+    gs.info('Found record: ' + gr.number);
+    
+    gr.status = 'declined';
+    gr.approval_comments = 'Rejected by ' + gs.getUserName();
+    gr.approver = gs.getUserID();
+    
+    if (gr.update()) {
+        gs.info('Status updated to: ' + gr.status);
+        gs.addInfoMessage('Leave request rejected successfully');
+    } else {
+        gs.error('Failed to update status: ' + gr.getLastErrorMessage());
+        gs.addErrorMessage('Failed to update status: ' + gr.getLastErrorMessage());
+    }
+} else {
+    gs.error('Could not find leave request record');
+    gs.addErrorMessage('Could not find leave request record');
+}
+
+action.setRedirectURL(current);]]></script>
+        <show_insert>false</show_insert>
+        <show_multiple_update>false</show_multiple_update>
+        <show_query>false</show_query>
+        <show_update>true</show_update>
+        <sys_class_name>sys_ui_action</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 11:34:41</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>cf852f8ac372e210a7f1b813e4013118</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Decline</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_ui_action_cf852f8ac372e210a7f1b813e4013118</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-20 19:55:19</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <ui11_compatible>true</ui11_compatible>
+        <ui16_compatible>false</ui16_compatible>
+    </sys_ui_action>
+</record_update>

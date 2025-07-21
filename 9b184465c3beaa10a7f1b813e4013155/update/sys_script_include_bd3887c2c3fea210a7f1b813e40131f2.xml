@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1800027_leve_sys.LeaveUtils</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>LeaveUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var LeaveUtils = Class.create();
+LeaveUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    // Your existing methods
+    getUserManager: function() {
+        try {
+            // Hardcode the manager ID for testing
+            var managerID = '5137153cc611227c000bbd1bd8cd2005';
+            gs.info('=== Script Include: Returning manager ID: ' + managerID);
+            return managerID;
+        } catch (ex) {
+            gs.error('Error in Script Include: ' + ex);
+            return '';
+        }
+    },
+    approveLeave: function() {
+    try {
+        var requestID = this.getParameter('sysparm_sys_id');
+        var requestGR = new GlideRecord('x_1800027_leve_sys_leave_request');
+        
+        if (requestGR.get(requestID)) {
+            gs.info('=== Approving leave request: ' + requestGR.number);
+            requestGR.setWorkflow(false); // Bypass Business Rules
+            requestGR.status = 'approved';
+            
+            if (requestGR.update()) {
+                gs.info('Successfully approved leave request: ' + requestGR.number);
+                return 'success';
+            } else {
+                var error = 'Failed to update record: ' + requestGR.getLastErrorMessage();
+                gs.error(error);
+                return error;
+            }
+        }
+        return 'Error: Could not find leave request';
+    } catch(ex) {
+        var error = 'Error in approveLeave: ' + ex.message;
+        gs.error(error);
+        return error;
+    }
+},
+    testBusinessRule: function() {
+        try {
+            var requestID = this.getParameter('sysparm_sys_id');
+            var requestGR = new GlideRecord('x_1800027_leve_sys_leave_request');
+
+            if (requestGR.get(requestID)) {
+                // Test the query
+                var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+                balanceGR.addQuery('employee', requestGR.requester);
+                balanceGR.addQuery('leave_type', requestGR.leave_type);
+                balanceGR.query();
+
+                if (balanceGR.next()) {
+                    return 'Found balance record with ' + balanceGR.remaining + ' days remaining';
+                } else {
+                    return 'No balance record found for this user/leave type';
+                }
+            }
+            return 'Error: Could not load request';
+        } catch (ex) {
+            return 'Error: ' + ex.message;
+        }
+    },
+    
+    type: 'LeaveUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 09:26:02</sys_created_on>
+        <sys_id>bd3887c2c3fea210a7f1b813e40131f2</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>LeaveUtils</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_include_bd3887c2c3fea210a7f1b813e40131f2</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:15:34</sys_updated_on>
+    </sys_script_include>
+</record_update>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sysevent_email_template">
+    <sysevent_email_template action="DELETE">
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <email_layout/>
+        <message/>
+        <message_html><![CDATA[<p>&lt;p&gt;Dear ${u_leave_request.requested_by.name},&lt;/p&gt;</p>
+<p>&lt;p&gt;Your leave request has been submitted successfully.&lt;/p&gt;</p>
+<p>&lt;p&gt;&lt;strong&gt;Details:&lt;/strong&gt;&lt;/p&gt;<br>&lt;ul&gt;<br>&nbsp; &nbsp; &lt;li&gt;Type: ${u_leave_request.leave_type}&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;Start Date: ${u_leave_request.start_date}&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;End Date: ${u_leave_request.end_date}&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;Duration: ${u_leave_request.duration} days&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;Status: ${u_leave_request.status}&lt;/li&gt;<br>&lt;/ul&gt;</p>
+<p>&lt;p&gt;You can view your request &lt;a href="${URI_DOC}${u_leave_request.sys_id}"&gt;here&lt;/a&gt;.&lt;/p&gt;</p>
+<p>&lt;p&gt;Thank you,&lt;br&gt;HR Team&lt;/p&gt;</p>]]></message_html>
+        <message_list/>
+        <message_text/>
+        <name>Leave Request Submitted</name>
+        <sms_alternate/>
+        <subject>Leave Request Submitted: ${u_leave_request.number}</subject>
+        <sys_class_name>sysevent_email_template</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-18 12:55:55</sys_created_on>
+        <sys_id>019ee6f1c37a6210a7f1b813e40131f8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Leave Request Submitted</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sysevent_email_template_019ee6f1c37a6210a7f1b813e40131f8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-18 12:55:55</sys_updated_on>
+        <sys_version>2</sys_version>
+    </sysevent_email_template>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sysevent_email_template_019ee6f1c37a6210a7f1b813e40131f8</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sysevent_email_template"&gt;&lt;sysevent_email_template action="INSERT_OR_UPDATE"&gt;&lt;collection&gt;x_1800027_leve_sys_leave_request&lt;/collection&gt;&lt;email_layout/&gt;&lt;message/&gt;&lt;message_html&gt;&lt;![CDATA[&lt;p&gt;&amp;lt;p&amp;gt;Dear ${u_leave_request.requested_by.name},&amp;lt;/p&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;p&amp;gt;Your leave request has been submitted successfully.&amp;lt;/p&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Details:&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;&lt;br&gt;&amp;lt;ul&amp;gt;&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;lt;li&amp;gt;Type: ${u_leave_request.leave_type}&amp;lt;/li&amp;gt;&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;lt;li&amp;gt;Start Date: ${u_leave_request.start_date}&amp;lt;/li&amp;gt;&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;lt;li&amp;gt;End Date: ${u_leave_request.end_date}&amp;lt;/li&amp;gt;&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;lt;li&amp;gt;Duration: ${u_leave_request.duration} days&amp;lt;/li&amp;gt;&lt;br&gt;&amp;nbsp; &amp;nbsp; &amp;lt;li&amp;gt;Status: ${u_leave_request.status}&amp;lt;/li&amp;gt;&lt;br&gt;&amp;lt;/ul&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;p&amp;gt;You can view your request &amp;lt;a href="${URI_DOC}${u_leave_request.sys_id}"&amp;gt;here&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;&lt;/p&gt;
+&lt;p&gt;&amp;lt;p&amp;gt;Thank you,&amp;lt;br&amp;gt;HR Team&amp;lt;/p&amp;gt;&lt;/p&gt;]]&gt;&lt;/message_html&gt;&lt;message_list/&gt;&lt;message_text/&gt;&lt;name&gt;Leave Request Submitted&lt;/name&gt;&lt;sms_alternate/&gt;&lt;subject&gt;Leave Request Submitted: ${u_leave_request.number}&lt;/subject&gt;&lt;sys_class_name&gt;sysevent_email_template&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-18 12:55:55&lt;/sys_created_on&gt;&lt;sys_id&gt;019ee6f1c37a6210a7f1b813e40131f8&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;Leave Request Submitted&lt;/sys_name&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sysevent_email_template_019ee6f1c37a6210a7f1b813e40131f8&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-18 12:55:55&lt;/sys_updated_on&gt;&lt;sys_version&gt;2&lt;/sys_version&gt;&lt;/sysevent_email_template&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1938496083</payload_hash>
+        <record_name>Leave Request Submitted</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-18 12:55:55</sys_created_on>
+        <sys_id>f5de2eb1c37a6210a7f1b813e40131f2</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1981d9b051b0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-18 12:55:55</sys_updated_on>
+        <type>Email Template</type>
+        <update_guid>f9de2eb18e7a621040f05b43d43355f1</update_guid>
+        <update_guid_history>f9de2eb18e7a621040f05b43d43355f1:-1938496083</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-18 12:57:06</sys_created_on>
+        <sys_db_object display_value="" name="sysevent_email_template">sysevent_email_template</sys_db_object>
+        <sys_id>112c1dc4dd4a4c649dd134f668795fa4</sys_id>
+        <sys_metadata>019ee6f1c37a6210a7f1b813e40131f8</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Leave Request Submitted</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent display_value="Leave Request">018dd865c332ea10a7f1b813e40131de</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sysevent_email_template_019ee6f1c37a6210a7f1b813e40131f8</sys_update_name>
+        <sys_update_version display_value="sysevent_email_template_019ee6f1c37a6210a7f1b813e40131f8">f5de2eb1c37a6210a7f1b813e40131f2</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-18 12:57:06</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

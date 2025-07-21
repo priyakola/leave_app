@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Enforce Leave balance</name>
+        <order>51</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous) {
+    try {
+        gs.info('=== Enforce leave balance - Complete ===');
+        
+        // Basic validation
+        if (!current.requested_by || !current.leave_type) {
+            gs.addErrorMessage('Required fields are missing');
+            current.setAbortAction(true);
+            return;
+        }
+        
+        // Get year as string
+        var yearDate = current.start_date ? 
+            new GlideDateTime(current.start_date) :
+            new GlideDateTime();
+        
+        var year = yearDate.getYearLocalTime().toString();
+        
+        // Find matching balance record
+        var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+        balanceGR.addQuery('employee', current.requested_by);
+        balanceGR.addQuery('leave_type', current.leave_type);
+        balanceGR.addQuery('year', year);
+        balanceGR.query();
+        
+        if (!balanceGR.next()) {
+            // No balance record found
+            var leaveTypeName = current.leave_type.getDisplayValue();
+            var msg = 'No leave balance record found for ' + leaveTypeName + ' in ' + year;
+            gs.info('VALIDATION FAILED: ' + msg);
+            gs.addErrorMessage(msg);
+            current.setAbortAction(true);
+            return;
+        }
+        
+        // Check available balance
+        var availableBalance = parseFloat(balanceGR.available_balance) || 0;
+        var requested = parseFloat(current.duration) || 0;
+
+        if (requested > availableBalance) {
+            var msg = 'Insufficient leave balance. Available: ' +
+                availableBalance.toFixed(2) + ' days, Requested: ' + 
+                requested.toFixed(2) + ' days';
+            gs.info('VALIDATION FAILED: ' + msg);
+            gs.addErrorMessage(msg);
+            current.setAbortAction(true);
+            return;
+        }
+        
+        gs.info('Validation passed - sufficient balance available');
+        
+    } catch(ex) {
+        gs.error('Error in validation: ' + ex);
+        gs.addErrorMessage('Error occurred: ' + ex.message);
+        current.setAbortAction(true);
+    }
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-20 18:21:23</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>e04c86eec3b26610a7f1b813e40131c3</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name>Enforce Leave balance</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_e04c86eec3b26610a7f1b813e40131c3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-20 19:51:30</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=e04c86eec3b26610a7f1b813e40131c3"/>
+</record_update>
