@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>start_date</field>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Calculate Leave Duration start_date</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading) {
+    if (isLoading) {
+        return;
+    }
+	// This is our main function that contains all the logic.
+    try {
+        var isHalfDay = g_form.getValue('is_half_day') === 'true';
+        var startDate = g_form.getValue('start_date');
+        var endDate = g_form.getValue('end_date');
+
+        // Clear any previous info messages
+        g_form.hideFieldMsg('end_date', true);
+
+        // --- SCENARIO 1: "Is Half Day" is CHECKED ---
+        if (isHalfDay) {
+            g_form.setValue('duration', '0.50');
+            
+            // Enforce that end date must match start date
+            if (startDate && startDate !== endDate) {
+                g_form.setValue('end_date', startDate);
+                g_form.showFieldMsg('end_date', 'End date set to match start date for half-day leave.', 'info');
+            }
+        } 
+        // --- SCENARIO 2: "Is Half Day" is UNCHECKED ---
+        else {
+            // If we have both dates, calculate the range
+            if (startDate && endDate) {
+                var start = new Date(startDate);
+                var end = new Date(endDate);
+
+                // Check if end date is before start date
+                if (start > end) {
+                     g_form.showFieldMsg('end_date', 'End date cannot be before start date.', 'error');
+                     g_form.setValue('duration', '1.00'); // Reset to 1
+                     return; // Stop further calculation
+                }
+
+                var timeDiff = end.getTime() - start.getTime();
+                var dayDiff = (timeDiff / (1000 * 3600 * 24)) + 1;
+                g_form.setValue('duration', dayDiff.toFixed(2));
+            } else {
+                // If one or both dates are missing, default to 1 day
+                g_form.setValue('duration', '1.00');
+            }
+        }
+    } catch (e) {
+        console.error("Error in updateLeaveDetails: " + e.message);
+    }
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 17:36:43</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>8b156e25c3f22210a7f1b813e4013129</sys_id>
+        <sys_mod_count>14</sys_mod_count>
+        <sys_name>Calculate Leave Duration start_date</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_client_8b156e25c3f22210a7f1b813e4013129</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:04:03</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <type>onChange</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

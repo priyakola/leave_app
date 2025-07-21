@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>is_half_day</field>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Handle Half Day Change</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading) {
+    // Exit if the form is loading
+    if (isLoading) {
+        return;
+    }
+
+    var isHalfDay = (newValue === 'true');
+
+    // --- Logic for when "Is Half Day" is CHECKED ---
+    if (isHalfDay) {
+        // Set duration to 0.5
+        g_form.setValue('duration', '0.50');
+
+        // Enforce the same start and end date
+        var startDate = g_form.getValue('start_date');
+        if (startDate) {
+            var endDate = g_form.getValue('end_date');
+            // If end date is different, set it to match the start date
+            if (startDate !== endDate) {
+                g_form.setValue('end_date', startDate);
+                g_form.showFieldMsg('end_date', 'End date set to match start date for half-day leave.', 'info');
+            }
+        }
+    } 
+    // --- Logic for when "Is Half Day" is UNCHECKED ---
+    else {
+        // Recalculate duration for a full day or date range
+        var startDate = g_form.getValue('start_date');
+        var endDate = g_form.getValue('end_date');
+
+        if (startDate && endDate) {
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+            
+            // Calculate day difference (inclusive)
+            var timeDiff = end.getTime() - start.getTime();
+            var dayDiff = (timeDiff / (1000 * 3600 * 24)) + 1;
+            
+            // Ensure duration is at least 1 and format it
+            dayDiff = Math.max(1, dayDiff);
+            g_form.setValue('duration', dayDiff.toFixed(2));
+        } else {
+            // Default to 1 day if dates are not set
+            g_form.setValue('duration', '1.00');
+        }
+    }
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 17:37:57</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>d095eea9c3f22210a7f1b813e4013118</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Handle Half Day Change</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_client_d095eea9c3f22210a7f1b813e4013118</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:04:05</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <type>onChange</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

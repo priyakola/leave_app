@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="DELETE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>false</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition table="x_1800027_leve_sys_leave_request">null<item endquery="false" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </filter_condition>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Validate Leave Balance</name>
+        <order>47</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous) {
+    try {
+        // Skip if this is a status change (handled by status change rule)
+        if (previous && current.status != previous.status) {
+            return;
+        }
+
+        // Basic validation
+        if (!current.requested_by) {
+            gs.addErrorMessage('Requester information is missing');
+            current.setAbortAction(true);
+            return;
+        }
+
+        if (!current.leave_type) {
+            gs.addErrorMessage('Please select a leave type');
+            current.setAbortAction(true);
+            return;
+        }
+
+        // Get year from start date or use current year
+        var year = current.start_date ? 
+            new GlideDateTime(current.start_date).getYearLocalTime() :
+            new GlideDateTime().getYearLocalTime();
+
+        // Find matching balance record
+        var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+        balanceGR.addQuery('employee', current.requested_by);
+        balanceGR.addQuery('leave_type', current.leave_type);
+        balanceGR.addQuery('year', year);
+        balanceGR.query();
+
+        if (balanceGR.next()) {
+            var availableBalance = parseFloat(balanceGR.available_balance) || 0;
+            var requested = parseFloat(current.duration) || 0;
+
+            if (requested > availableBalance) {
+                var msg = 'Insufficient leave balance. Available: ' +
+                    availableBalance.toFixed(2) + ' days, Requested: ' + 
+                    requested.toFixed(2) + ' days';
+                gs.addErrorMessage(msg);
+                current.setAbortAction(true);
+            }
+        } else {
+            var msg = 'No leave balance record found for the selected leave type in ' + year;
+            gs.addErrorMessage(msg);
+            current.setAbortAction(true);
+        }
+    } catch(ex) {
+        gs.error('Error in Validate Leave Balance BR: ' + ex);
+        gs.addErrorMessage('An error occurred while validating leave balance');
+        current.setAbortAction(true);
+    }
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 09:58:30</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>8daf078ec3fea210a7f1b813e4013171</sys_id>
+        <sys_mod_count>24</sys_mod_count>
+        <sys_name>Validate Leave Balance</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_8daf078ec3fea210a7f1b813e4013171</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-20 18:05:27</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="DELETE" query="documentkey=8daf078ec3fea210a7f1b813e4013171"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_script_8daf078ec3fea210a7f1b813e4013171</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;false&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;false&lt;/action_query&gt;&lt;action_update&gt;true&lt;/action_update&gt;&lt;active&gt;false&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_1800027_leve_sys_leave_request&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition table="x_1800027_leve_sys_leave_request"&gt;null&lt;item endquery="false" field="" goto="false" newquery="false" operator="=" or="false" value=""/&gt;&lt;/filter_condition&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt;Validate Leave Balance&lt;/name&gt;&lt;order&gt;47&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[(function executeRule(current, previous) {
+    try {
+        // Skip if this is a status change (handled by status change rule)
+        if (previous &amp;&amp; current.status != previous.status) {
+            return;
+        }
+
+        // Basic validation
+        if (!current.requested_by) {
+            gs.addErrorMessage('Requester information is missing');
+            current.setAbortAction(true);
+            return;
+        }
+
+        if (!current.leave_type) {
+            gs.addErrorMessage('Please select a leave type');
+            current.setAbortAction(true);
+            return;
+        }
+
+        // Get year from start date or use current year
+        var year = current.start_date ? 
+            new GlideDateTime(current.start_date).getYearLocalTime() :
+            new GlideDateTime().getYearLocalTime();
+
+        // Find matching balance record
+        var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+        balanceGR.addQuery('employee', current.requested_by);
+        balanceGR.addQuery('leave_type', current.leave_type);
+        balanceGR.addQuery('year', year);
+        balanceGR.query();
+
+        if (balanceGR.next()) {
+            var availableBalance = parseFloat(balanceGR.available_balance) || 0;
+            var requested = parseFloat(current.duration) || 0;
+
+            if (requested &gt; availableBalance) {
+                var msg = 'Insufficient leave balance. Available: ' +
+                    availableBalance.toFixed(2) + ' days, Requested: ' + 
+                    requested.toFixed(2) + ' days';
+                gs.addErrorMessage(msg);
+                current.setAbortAction(true);
+            }
+        } else {
+            var msg = 'No leave balance record found for the selected leave type in ' + year;
+            gs.addErrorMessage(msg);
+            current.setAbortAction(true);
+        }
+    } catch(ex) {
+        gs.error('Error in Validate Leave Balance BR: ' + ex);
+        gs.addErrorMessage('An error occurred while validating leave balance');
+        current.setAbortAction(true);
+    }
+})(current, previous);]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-19 09:58:30&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;8daf078ec3fea210a7f1b813e4013171&lt;/sys_id&gt;&lt;sys_mod_count&gt;24&lt;/sys_mod_count&gt;&lt;sys_name&gt;Validate Leave Balance&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_8daf078ec3fea210a7f1b813e4013171&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-20 18:05:27&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;before&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=8daf078ec3fea210a7f1b813e4013171"/&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>567342802</payload_hash>
+        <record_name>Validate Leave Balance</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>previous</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-20 18:05:27</sys_created_on>
+        <sys_id>afd8c6aac3b26610a7f1b813e401319f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1982903206b0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-20 18:05:27</sys_updated_on>
+        <type>Business Rule</type>
+        <update_guid>63d8c6aa62b2661034197103c04d6b9f</update_guid>
+        <update_guid_history>63d8c6aa62b2661034197103c04d6b9f:567342802,6f38ce6af2b26610a985902f1e9e63ba:1469105125,80384e6a52b266102dde1ed39828556e:167450860,b6678ee6fbb266101a44cef6b9fc436a:-1066841999,ff46cea657b266107c2721f71b9935b0:124677730,41268ea623b2661047898e4c39328a83:-1542390147,32a5c2a643b266107d3704a26ad3d2fb:-49410834,069546665bb26610c1ac3392c28b6e76:1819116278,13758e66dab26610304224823d5918e0:-1919727256,41e48266e5b26610d2242f90e11b6847:-845035714,2654c6269fb26610014e416a32554c27:-1585846098,381406e2b9b26610e3be6eab721d004a:263660957,e4c20e6294b266109ee1aec4438e148f:1037297651,266af74a6df2e210d16f82d122ba1d1f:1304914044,89a9730ab3f2e210ec7c48323129fd48:1682052713,af4677c263f2e210f0dae80db6f46c3a:1304914044,bfb33fce4fb2e2108bd3a9dd87822cb8:1355163588,95afd3c29972e21053a51bd80911bd2c:1082292787,949b9f0e1f32e21011e47b2c38c52b61:-1229621462,d82a9fca9232e2106ecbc03a415fa3c1:1376457883,feb6d7c6e032e21016c83ffba363e7a0:1573696075,5ae557861232e2104d0e2f5a42bd2bd8:1347210790,9b65db46db32e2108849e96620ec7636:-783742636,90049fc29732e210f163ca22498f3257:538005199,78dfcb0e12fea2100958c9290b5ac222:623816024</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-20 18:20:03</sys_created_on>
+        <sys_db_object display_value="" name="sys_script">sys_script</sys_db_object>
+        <sys_id>440b5abe41e944cb92ab585ed2db8c39</sys_id>
+        <sys_metadata>8daf078ec3fea210a7f1b813e4013171</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Validate Leave Balance</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent display_value="Leave Request">018dd865c332ea10a7f1b813e40131de</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_script_8daf078ec3fea210a7f1b813e4013171</sys_update_name>
+        <sys_update_version display_value="sys_script_8daf078ec3fea210a7f1b813e4013171">afd8c6aac3b26610a7f1b813e401319f</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-20 18:20:03</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

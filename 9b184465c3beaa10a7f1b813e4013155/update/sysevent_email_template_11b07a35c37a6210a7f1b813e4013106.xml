@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sysevent_email_template">
+    <sysevent_email_template action="INSERT_OR_UPDATE">
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <email_layout/>
+        <message/>
+        <message_html><![CDATA[<p>&lt;p&gt;Dear ${requested_by.name},&lt;/p&gt;</p>
+<p>&lt;p&gt;Your leave request has been submitted successfully.&lt;/p&gt;</p>
+<p>&lt;p&gt;&lt;strong&gt;Details:&lt;/strong&gt;&lt;/p&gt;<br>&lt;ul&gt;<br>&nbsp; &nbsp; &lt;li&gt;Type: ${leave_type}&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;Start Date: ${start_date}&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;End Date: ${end_date}&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;Duration: ${duration} days&lt;/li&gt;<br>&nbsp; &nbsp; &lt;li&gt;Status: ${status}&lt;/li&gt;<br>&lt;/ul&gt;</p>
+<p>&lt;p&gt;You can view your request &lt;a href="${URI_DOC}${sys_id}"&gt;here&lt;/a&gt;.&lt;/p&gt;</p>
+<p>&lt;p&gt;Thank you,&lt;br&gt;HR Team&lt;/p&gt;</p>]]></message_html>
+        <message_list/>
+        <message_text><![CDATA[Your leave request has been received.
+
+Type: ${leave_type}
+Dates: ${start_date} to ${end_date}
+Duration: ${duration} days
+Status: ${status}
+
+Thank you!]]></message_text>
+        <name>Leave Request Submitted</name>
+        <sms_alternate/>
+        <subject>Leave Request: ${number}</subject>
+        <sys_class_name>sysevent_email_template</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-18 13:04:41</sys_created_on>
+        <sys_id>11b07a35c37a6210a7f1b813e4013106</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>Leave Request Submitted</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sysevent_email_template_11b07a35c37a6210a7f1b813e4013106</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 07:24:47</sys_updated_on>
+        <sys_version>2</sys_version>
+    </sysevent_email_template>
+</record_update>

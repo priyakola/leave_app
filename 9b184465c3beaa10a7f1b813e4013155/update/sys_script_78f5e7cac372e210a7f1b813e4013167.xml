@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Handle Leave Status Changes</name>
+        <order>52</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous) {
+    try {
+        // Enhanced logging
+        gs.info('=== Handle Leave Status Changes ===');
+        gs.info('Record: ' + current.number);
+        gs.info('Current status: ' + current.status);
+        gs.info('Previous status: ' + (previous ? previous.status : 'New record'));
+        
+        // Only proceed if we have a previous record and status changed
+        if (!previous || current.status == previous.status) {
+            gs.info('No status change or new record, exiting');
+            return;
+        }
+        
+        gs.info('Status changed from ' + previous.status + ' to ' + current.status);
+        
+        // Handle approval
+        if (current.status == 'approved' && previous.status != 'approved') {
+            gs.info('Processing approval...');
+            updateLeaveBalance(current, 'approve');
+        }
+        
+        // Handle rejection of previously approved request
+        if (current.status == 'declined' && previous.status == 'approved') {
+            gs.info('Processing rejection of previously approved request...');
+            updateLeaveBalance(current, 'return');
+        }
+        
+    } catch (ex) {
+        gs.error('Error in Handle Leave Status Changes: ' + ex.message);
+        gs.error('Stack: ' + ex.stack);
+    }
+    
+    function updateLeaveBalance(leaveRequest, action) {
+        try {
+            // Get the leave balance record
+            var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+            balanceGR.addQuery('employee', leaveRequest.requested_by);
+            balanceGR.addQuery('leave_type', leaveRequest.leave_type);
+            
+            // Get year from start date
+            var yearDate = new GlideDateTime(leaveRequest.start_date);
+            var year = yearDate.getYearLocalTime().toString();
+            balanceGR.addQuery('year', year);
+            
+            balanceGR.query();
+            
+            if (!balanceGR.next()) {
+                gs.error('No leave balance record found for updating');
+                return false;
+            }
+            
+            // Get current values
+            var availableBalance = parseFloat(balanceGR.available_balance) || 0;
+            var usedBalance = parseFloat(balanceGR.used_balance) || 0;
+            var duration = parseFloat(leaveRequest.duration) || 0;
+            
+            gs.info('Current balance - Available: ' + availableBalance + ', Used: ' + usedBalance);
+            gs.info('Leave duration: ' + duration);
+            
+            // Update based on action
+            if (action == 'approve') {
+                // Decrease available, increase used
+                balanceGR.available_balance = availableBalance - duration;
+                balanceGR.used_balance = usedBalance + duration;
+                balanceGR.last_updated = new GlideDateTime();
+                
+                gs.info('Updating balance - Decreasing available by ' + duration);
+            } else if (action == 'return') {
+                // Increase available, decrease used
+                balanceGR.available_balance = availableBalance + duration;
+                balanceGR.used_balance = usedBalance - duration;
+                balanceGR.last_updated = new GlideDateTime();
+                
+                gs.info('Updating balance - Increasing available by ' + duration);
+            }
+            
+            // Update the record
+            if (balanceGR.update()) {
+                gs.info('Balance updated successfully');
+                gs.info('New balance - Available: ' + balanceGR.available_balance + 
+                      ', Used: ' + balanceGR.used_balance);
+                return true;
+            } else {
+                gs.error('Failed to update balance: ' + balanceGR.getLastErrorMessage());
+                return false;
+            }
+        } catch (ex) {
+            gs.error('Error in updateLeaveBalance: ' + ex.message);
+            return false;
+        }
+    }
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 11:36:01</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>78f5e7cac372e210a7f1b813e4013167</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>Handle Leave Status Changes</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_78f5e7cac372e210a7f1b813e4013167</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 04:31:36</sys_updated_on>
+        <template/>
+        <when>after</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=78f5e7cac372e210a7f1b813e4013167"/>
+</record_update>

@@ -4,14 +4,19 @@
         <array>false</array>
         <attributes>edge_encryption_enabled=true</attributes>
         <audit>false</audit>
-        <calculation/>
-        <choice>1</choice>
+        <calculation><![CDATA[(function calculatedFieldValue(current) {
+
+	// Add your code here
+	return '';  // return the calculated value
+
+})(current);]]></calculation>
+        <choice>3</choice>
         <choice_field/>
         <choice_table/>
         <column_label>Half day period</column_label>
         <comments/>
         <create_roles/>
-        <default_value/>
+        <default_value>javascript:ChangeModel.getDefaultTypeValue()</default_value>
         <defaultsort/>
         <delete_roles/>
         <dependent/>
@@ -19,7 +24,7 @@
         <display>false</display>
         <dynamic_creation>false</dynamic_creation>
         <dynamic_creation_script/>
-        <dynamic_default_value/>
+        <dynamic_default_value display_value="Default Change Type">d1442bd4c3c02010b1343f52c1d3aea5</dynamic_default_value>
         <dynamic_ref_qual/>
         <element>half_day_period</element>
         <element_reference>false</element_reference>
@@ -28,7 +33,7 @@
         <function_definition/>
         <function_field>false</function_field>
         <internal_type display_value="Choice">choice</internal_type>
-        <mandatory>false</mandatory>
+        <mandatory>true</mandatory>
         <max_length>40</max_length>
         <name>x_1800027_leve_sys_leave_request</name>
         <next_element/>
@@ -53,12 +58,12 @@
         <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
         <sys_update_name>sys_dictionary_x_1800027_leve_sys_leave_request_half_day_period</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-07-17 07:42:34</sys_updated_on>
+        <sys_updated_on>2025-07-19 08:45:51</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>
-        <use_dependent_field>false</use_dependent_field>
-        <use_dynamic_default>false</use_dynamic_default>
+        <use_dependent_field>true</use_dependent_field>
+        <use_dynamic_default>true</use_dynamic_default>
         <use_reference_qualifier>simple</use_reference_qualifier>
         <virtual>false</virtual>
         <virtual_type>script</virtual_type>
