@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_ui_script">
+    <sys_ui_script action="DELETE">
+        <active>true</active>
+        <description/>
+        <global>false</global>
+        <ignore_in_now_experience>false</ignore_in_now_experience>
+        <name>x_1800027_leve_sys.LeaveRequestCalculati</name>
+        <script><![CDATA[var LeaveRequestCalculations = {
+    updateDuration: function() {
+        var startDate = g_form.getValue('start_date');
+        var endDate = g_form.getValue('end_date');
+        var country = g_form.getValue('country');
+        var isHalfDay = g_form.getValue('half_day') === 'true';
+        
+        // Exit if we don't have all required fields
+        if (!startDate || !endDate || !country) {
+            return;
+        }
+        
+        // If half-day is selected, ensure end date equals start date
+        if (isHalfDay && startDate !== endDate) {
+            g_form.setValue('end_date', startDate);
+        }
+        
+        // Call server to calculate duration
+        var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+        ga.addParam('sysparm_name', 'calculateDuration');
+        ga.addParam('sysparm_start_date', startDate);
+        ga.addParam('sysparm_end_date', endDate);
+        ga.addParam('sysparm_country', country);
+        ga.addParam('sysparm_half_day', isHalfDay);
+        
+        ga.getXMLAnswer(function(duration) {
+            g_form.setValue('duration', duration);
+            
+            // Now get non-working days for display
+            LeaveRequestCalculations.showNonWorkingDays(startDate, endDate, country, duration, isHalfDay);
+        });
+    },
+    
+    showNonWorkingDays: function(startDate, endDate, country, duration, isHalfDay) {
+        var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+        ga.addParam('sysparm_name', 'getNonWorkingDays');
+        ga.addParam('sysparm_start_date', startDate);
+        ga.addParam('sysparm_end_date', endDate);
+        ga.addParam('sysparm_country', country);
+        
+        ga.getXMLAnswer(function(answer) {
+            try {
+                var nonWorkingDays = JSON.parse(answer);
+                
+                if (nonWorkingDays.length > 0) {
+                    // Group by type
+                    var holidays = [];
+                    var weekends = [];
+                    
+                    for (var i = 0; i < nonWorkingDays.length; i++) {
+                        var day = nonWorkingDays[i];
+                        if (day.type === 'holiday') {
+                            holidays.push(day);
+                        } else {
+                            weekends.push(day);
+                        }
+                    }
+                    
+                    // Build message
+                    var message = '';
+                    
+                    if (holidays.length > 0) {
+                        message += 'Holidays in selected range:\n';
+                        for (var j = 0; j < holidays.length; j++) {
+                            var holiday = holidays[j];
+                            var holidayDate = new GlideDateTime(holiday.date).getDisplayValue();
+                            message += '- ' + holidayDate + ': ' + holiday.reason.replace('Holiday: ', '') + '\n';
+                        }
+                    }
+                    
+                    if (weekends.length > 0) {
+                        if (message) message += '\n';
+                        message += 'Weekends in selected range: ' + weekends.length + ' days\n';
+                    }
+                    
+                    message += '\nWorking days: ' + duration;
+                    if (isHalfDay) {
+                        message += ' (includes half-day adjustment)';
+                    }
+                    
+                    g_form.addInfoMessage(message);
+                }
+            } catch (e) {
+                console.error('Error processing non-working days: ' + e);
+            }
+        });
+    },
+    
+    handleHalfDayChange: function(isHalfDay) {
+        if (isHalfDay) {
+            var startDate = g_form.getValue('start_date');
+            if (startDate) {
+                g_form.setValue('end_date', startDate);
+            }
+            g_form.setReadOnly('end_date', true);
+        } else {
+            g_form.setReadOnly('end_date', false);
+        }
+        
+        this.updateDuration();
+    }
+};]]></script>
+        <script_name>LeaveRequestCalculations</script_name>
+        <sys_class_name>sys_ui_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 10:16:10</sys_created_on>
+        <sys_id>73e6e932c336a610a7f1b813e40131f8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1800027_leve_sys.LeaveRequestCalculati</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_ui_script_73e6e932c336a610a7f1b813e40131f8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 10:16:10</sys_updated_on>
+        <ui_type>10</ui_type>
+        <use_scoped_format>false</use_scoped_format>
+    </sys_ui_script>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_ui_script_73e6e932c336a610a7f1b813e40131f8</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_ui_script"&gt;&lt;sys_ui_script action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;description/&gt;&lt;global&gt;false&lt;/global&gt;&lt;ignore_in_now_experience&gt;false&lt;/ignore_in_now_experience&gt;&lt;name&gt;x_1800027_leve_sys.LeaveRequestCalculati&lt;/name&gt;&lt;script&gt;&lt;![CDATA[var LeaveRequestCalculations = {
+    updateDuration: function() {
+        var startDate = g_form.getValue('start_date');
+        var endDate = g_form.getValue('end_date');
+        var country = g_form.getValue('country');
+        var isHalfDay = g_form.getValue('half_day') === 'true';
+        
+        // Exit if we don't have all required fields
+        if (!startDate || !endDate || !country) {
+            return;
+        }
+        
+        // If half-day is selected, ensure end date equals start date
+        if (isHalfDay &amp;&amp; startDate !== endDate) {
+            g_form.setValue('end_date', startDate);
+        }
+        
+        // Call server to calculate duration
+        var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+        ga.addParam('sysparm_name', 'calculateDuration');
+        ga.addParam('sysparm_start_date', startDate);
+        ga.addParam('sysparm_end_date', endDate);
+        ga.addParam('sysparm_country', country);
+        ga.addParam('sysparm_half_day', isHalfDay);
+        
+        ga.getXMLAnswer(function(duration) {
+            g_form.setValue('duration', duration);
+            
+            // Now get non-working days for display
+            LeaveRequestCalculations.showNonWorkingDays(startDate, endDate, country, duration, isHalfDay);
+        });
+    },
+    
+    showNonWorkingDays: function(startDate, endDate, country, duration, isHalfDay) {
+        var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+        ga.addParam('sysparm_name', 'getNonWorkingDays');
+        ga.addParam('sysparm_start_date', startDate);
+        ga.addParam('sysparm_end_date', endDate);
+        ga.addParam('sysparm_country', country);
+        
+        ga.getXMLAnswer(function(answer) {
+            try {
+                var nonWorkingDays = JSON.parse(answer);
+                
+                if (nonWorkingDays.length &gt; 0) {
+                    // Group by type
+                    var holidays = [];
+                    var weekends = [];
+                    
+                    for (var i = 0; i &lt; nonWorkingDays.length; i++) {
+                        var day = nonWorkingDays[i];
+                        if (day.type === 'holiday') {
+                            holidays.push(day);
+                        } else {
+                            weekends.push(day);
+                        }
+                    }
+                    
+                    // Build message
+                    var message = '';
+                    
+                    if (holidays.length &gt; 0) {
+                        message += 'Holidays in selected range:\n';
+                        for (var j = 0; j &lt; holidays.length; j++) {
+                            var holiday = holidays[j];
+                            var holidayDate = new GlideDateTime(holiday.date).getDisplayValue();
+                            message += '- ' + holidayDate + ': ' + holiday.reason.replace('Holiday: ', '') + '\n';
+                        }
+                    }
+                    
+                    if (weekends.length &gt; 0) {
+                        if (message) message += '\n';
+                        message += 'Weekends in selected range: ' + weekends.length + ' days\n';
+                    }
+                    
+                    message += '\nWorking days: ' + duration;
+                    if (isHalfDay) {
+                        message += ' (includes half-day adjustment)';
+                    }
+                    
+                    g_form.addInfoMessage(message);
+                }
+            } catch (e) {
+                console.error('Error processing non-working days: ' + e);
+            }
+        });
+    },
+    
+    handleHalfDayChange: function(isHalfDay) {
+        if (isHalfDay) {
+            var startDate = g_form.getValue('start_date');
+            if (startDate) {
+                g_form.setValue('end_date', startDate);
+            }
+            g_form.setReadOnly('end_date', true);
+        } else {
+            g_form.setReadOnly('end_date', false);
+        }
+        
+        this.updateDuration();
+    }
+};]]&gt;&lt;/script&gt;&lt;script_name&gt;LeaveRequestCalculations&lt;/script_name&gt;&lt;sys_class_name&gt;sys_ui_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-21 10:16:10&lt;/sys_created_on&gt;&lt;sys_id&gt;73e6e932c336a610a7f1b813e40131f8&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;x_1800027_leve_sys.LeaveRequestCalculati&lt;/sys_name&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_ui_script_73e6e932c336a610a7f1b813e40131f8&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-21 10:16:10&lt;/sys_updated_on&gt;&lt;ui_type&gt;10&lt;/ui_type&gt;&lt;use_scoped_format&gt;false&lt;/use_scoped_format&gt;&lt;/sys_ui_script&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-930129716</payload_hash>
+        <record_name>x_1800027_leve_sys.LeaveRequestCalculati</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 10:16:10</sys_created_on>
+        <sys_id>c707a536c336a610a7f1b813e40131c0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1982c7bd8440000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 10:16:10</sys_updated_on>
+        <type>UI Script</type>
+        <update_guid>cb07a5363e36a6101a57a9f4e76b66bf</update_guid>
+        <update_guid_history>cb07a5363e36a6101a57a9f4e76b66bf:-930129716</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 12:57:48</sys_created_on>
+        <sys_db_object display_value="" name="sys_ui_script">sys_ui_script</sys_db_object>
+        <sys_id>7d04d71814554f0493da8e7430a85590</sys_id>
+        <sys_metadata>73e6e932c336a610a7f1b813e40131f8</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1800027_leve_sys.LeaveRequestCalculati</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_ui_script_73e6e932c336a610a7f1b813e40131f8</sys_update_name>
+        <sys_update_version display_value="sys_ui_script_73e6e932c336a610a7f1b813e40131f8">c707a536c336a610a7f1b813e40131c0</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 12:57:48</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

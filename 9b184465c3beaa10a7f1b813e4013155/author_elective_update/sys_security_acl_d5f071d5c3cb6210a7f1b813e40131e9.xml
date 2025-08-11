@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl">
+    <sys_security_acl action="DELETE">
+        <active>true</active>
+        <admin_overrides>true</admin_overrides>
+        <advanced>true</advanced>
+        <applies_to/>
+        <condition/>
+        <controlled_by_refs/>
+        <decision_type>allow</decision_type>
+        <description/>
+        <local_or_existing>Local</local_or_existing>
+        <name>x_1800027_leve_sys_leave_request.status</name>
+        <operation display_value="write">write</operation>
+        <script><![CDATA[// Allow managers to update status for their direct reports
+var user = new GlideRecordSecure('sys_user');
+if (user.get(current.employee)) {
+    // Manager can update status
+    if (user.manager == gs.getUserID()) {
+        answer = true;
+    }
+}
+
+// HR admins can update any status
+if (gs.hasRole('x_1800027_leve_sys.leave_hr_admin')) {
+    answer = true;
+}
+
+answer = false;]]></script>
+        <security_attribute/>
+        <sys_class_name>sys_security_acl</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 05:27:37</sys_created_on>
+        <sys_id>d5f071d5c3cb6210a7f1b813e40131e9</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1800027_leve_sys_leave_request.status</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_security_acl_d5f071d5c3cb6210a7f1b813e40131e9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 05:27:37</sys_updated_on>
+        <type display_value="record">record</type>
+    </sys_security_acl>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_security_acl_d5f071d5c3cb6210a7f1b813e40131e9</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_security_acl"&gt;&lt;sys_security_acl action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;admin_overrides&gt;true&lt;/admin_overrides&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;applies_to/&gt;&lt;condition/&gt;&lt;controlled_by_refs/&gt;&lt;decision_type&gt;allow&lt;/decision_type&gt;&lt;description/&gt;&lt;local_or_existing&gt;Local&lt;/local_or_existing&gt;&lt;name&gt;x_1800027_leve_sys_leave_request.status&lt;/name&gt;&lt;operation display_value="write"&gt;write&lt;/operation&gt;&lt;script&gt;&lt;![CDATA[// Allow managers to update status for their direct reports
+var user = new GlideRecordSecure('sys_user');
+if (user.get(current.employee)) {
+    // Manager can update status
+    if (user.manager == gs.getUserID()) {
+        answer = true;
+    }
+}
+
+// HR admins can update any status
+if (gs.hasRole('x_1800027_leve_sys.leave_hr_admin')) {
+    answer = true;
+}
+
+answer = false;]]&gt;&lt;/script&gt;&lt;security_attribute/&gt;&lt;sys_class_name&gt;sys_security_acl&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-29 05:27:37&lt;/sys_created_on&gt;&lt;sys_id&gt;d5f071d5c3cb6210a7f1b813e40131e9&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;x_1800027_leve_sys_leave_request.status&lt;/sys_name&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_security_acl_d5f071d5c3cb6210a7f1b813e40131e9&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-29 05:27:37&lt;/sys_updated_on&gt;&lt;type display_value="record"&gt;record&lt;/type&gt;&lt;/sys_security_acl&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>927371517</payload_hash>
+        <record_name>x_1800027_leve_sys_leave_request.status</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 05:27:38</sys_created_on>
+        <sys_id>aab17119c3cb6210a7f1b813e4013155</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19854a68d440000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 05:27:38</sys_updated_on>
+        <type>Access Control</type>
+        <update_guid>9eb1711938cb621069afb586b1bc5c54</update_guid>
+        <update_guid_history>9eb1711938cb621069afb586b1bc5c54:927371517</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 06:35:36</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl">sys_security_acl</sys_db_object>
+        <sys_id>04062ab60bfb4eb080ace353d91dad90</sys_id>
+        <sys_metadata>d5f071d5c3cb6210a7f1b813e40131e9</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1800027_leve_sys_leave_request.status</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent display_value="Status">698d1c65c332ea10a7f1b813e40131fe</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_security_acl_d5f071d5c3cb6210a7f1b813e40131e9</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_d5f071d5c3cb6210a7f1b813e40131e9">aab17119c3cb6210a7f1b813e4013155</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 06:35:36</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

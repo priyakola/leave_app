@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role">
+    <sys_security_acl_role action="DELETE">
+        <sys_class_name>sys_security_acl_role</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 05:42:38</sys_created_on>
+        <sys_id>eb15fdd9c3cb6210a7f1b813e4013170</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>.x_1800027_leve_sys.leave_manager</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_security_acl display_value="">aef4b51dc3cb6210a7f1b813e401311b</sys_security_acl>
+        <sys_update_name>sys_security_acl_role_eb15fdd9c3cb6210a7f1b813e4013170</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 05:42:38</sys_updated_on>
+        <sys_user_role display_value="x_1800027_leve_sys.leave_manager" name="x_1800027_leve_sys.leave_manager">64a8c469c3beaa10a7f1b813e40131bb</sys_user_role>
+    </sys_security_acl_role>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_security_acl_role_eb15fdd9c3cb6210a7f1b813e4013170</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl_role"><sys_security_acl_role action="INSERT_OR_UPDATE"><sys_class_name>sys_security_acl_role</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-07-29 05:42:38</sys_created_on><sys_id>eb15fdd9c3cb6210a7f1b813e4013170</sys_id><sys_mod_count>0</sys_mod_count><sys_name>.x_1800027_leve_sys.leave_manager</sys_name><sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package><sys_policy/><sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope><sys_security_acl display_value="">aef4b51dc3cb6210a7f1b813e401311b</sys_security_acl><sys_update_name>sys_security_acl_role_eb15fdd9c3cb6210a7f1b813e4013170</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-07-29 05:42:38</sys_updated_on><sys_user_role display_value="x_1800027_leve_sys.leave_manager" name="x_1800027_leve_sys.leave_manager">64a8c469c3beaa10a7f1b813e40131bb</sys_user_role></sys_security_acl_role></record_update>]]></payload>
+        <payload_hash>-2032903091</payload_hash>
+        <record_name>.x_1800027_leve_sys.leave_manager</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 05:42:38</sys_created_on>
+        <sys_id>d625f51dc3cb6210a7f1b813e4013115</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19854b44a6c0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 05:42:38</sys_updated_on>
+        <type>Access Roles</type>
+        <update_guid>da25f51db6cb6210e098b1db778cf614</update_guid>
+        <update_guid_history>da25f51db6cb6210e098b1db778cf614:-2032903091</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value=".x_1800027_leve_sys.leave_manager">8e41825dc30f6210a7f1b813e4013183</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 06:35:35</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl_role">sys_security_acl_role</sys_db_object>
+        <sys_id>043606b86f8b422e81349f43a95d2ac9</sys_id>
+        <sys_metadata>eb15fdd9c3cb6210a7f1b813e4013170</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>.x_1800027_leve_sys.leave_manager</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_security_acl_role_eb15fdd9c3cb6210a7f1b813e4013170</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_role_eb15fdd9c3cb6210a7f1b813e4013170">d625f51dc3cb6210a7f1b813e4013115</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 06:35:35</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

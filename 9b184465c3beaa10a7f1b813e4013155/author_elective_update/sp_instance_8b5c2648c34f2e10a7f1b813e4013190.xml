@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance">
+    <sp_instance action="DELETE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">095c6648c34f2e10a7f1b813e401311a</sp_column>
+        <sp_widget display_value="Form">fd1f4ec347730200ba13a5554ee490c0</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 12:31:24</sys_created_on>
+        <sys_id>8b5c2648c34f2e10a7f1b813e4013190</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sp_instance_8b5c2648c34f2e10a7f1b813e4013190</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 12:31:32</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters><![CDATA[{
+	"disableUIActions": {
+		"value": "true",
+		"displayValue": "true"
+	},
+	"showFormView": {
+		"value": "true",
+		"displayValue": "true"
+	},
+	"omitHeaderOptions": {
+		"value": "true",
+		"displayValue": "true"
+	}
+}]]></widget_parameters>
+    </sp_instance>
+    <sys_translated_text action="DELETE" query="documentkey=8b5c2648c34f2e10a7f1b813e4013190"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sp_instance_8b5c2648c34f2e10a7f1b813e4013190</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_instance"&gt;&lt;sp_instance action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;class_name/&gt;&lt;color&gt;default&lt;/color&gt;&lt;css/&gt;&lt;glyph/&gt;&lt;id/&gt;&lt;order&gt;1&lt;/order&gt;&lt;roles/&gt;&lt;short_description/&gt;&lt;size&gt;md&lt;/size&gt;&lt;sp_column display_value="1"&gt;095c6648c34f2e10a7f1b813e401311a&lt;/sp_column&gt;&lt;sp_widget display_value="Form"&gt;fd1f4ec347730200ba13a5554ee490c0&lt;/sp_widget&gt;&lt;sys_class_name&gt;sp_instance&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-25 12:31:24&lt;/sys_created_on&gt;&lt;sys_id&gt;8b5c2648c34f2e10a7f1b813e4013190&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name/&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_instance_8b5c2648c34f2e10a7f1b813e4013190&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-25 12:31:32&lt;/sys_updated_on&gt;&lt;title/&gt;&lt;url/&gt;&lt;widget_parameters&gt;&lt;![CDATA[{
+	"disableUIActions": {
+		"value": "true",
+		"displayValue": "true"
+	},
+	"showFormView": {
+		"value": "true",
+		"displayValue": "true"
+	},
+	"omitHeaderOptions": {
+		"value": "true",
+		"displayValue": "true"
+	}
+}]]&gt;&lt;/widget_parameters&gt;&lt;/sp_instance&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=8b5c2648c34f2e10a7f1b813e4013190"/&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>144855374</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 12:31:32</sys_created_on>
+        <sys_id>456c6248c34f2e10a7f1b813e40131ea</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>198419135500000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 12:31:32</sys_updated_on>
+        <type>Instance</type>
+        <update_guid>c96c62481c4f2e10d86fd5eaf14ccae9</update_guid>
+        <update_guid_history>c96c62481c4f2e10d86fd5eaf14ccae9:144855374,835c2648424f2e10b86bac2fa13ec092:1783933116</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">87cce248c34f2e10a7f1b813e4013135</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 12:33:18</sys_created_on>
+        <sys_db_object display_value="" name="sp_instance">sp_instance</sys_db_object>
+        <sys_id>2d813acc9acc4cf8898401e7a4885c31</sys_id>
+        <sys_metadata>8b5c2648c34f2e10a7f1b813e4013190</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sp_instance_8b5c2648c34f2e10a7f1b813e4013190</sys_update_name>
+        <sys_update_version display_value="sp_instance_8b5c2648c34f2e10a7f1b813e4013190">456c6248c34f2e10a7f1b813e40131ea</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 12:33:18</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -10,52 +10,80 @@
         <messages/>
         <name>calculate leave duration for end date</name>
         <order/>
-        <script><![CDATA[// This is our main function that contains all the logic.
-function onChange(control, oldValue, newValue, isLoading) {
-    if (isLoading) {
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading) {
+    if (isLoading || newValue === '') {
         return;
-    }    try {
-        var isHalfDay = g_form.getValue('is_half_day') === 'true';
+    }
+    
+    try {
         var startDate = g_form.getValue('start_date');
         var endDate = g_form.getValue('end_date');
-
-        // Clear any previous info messages
-        g_form.hideFieldMsg('end_date', true);
-
-        // --- SCENARIO 1: "Is Half Day" is CHECKED ---
-        if (isHalfDay) {
-            g_form.setValue('duration', '0.50');
-            
-            // Enforce that end date must match start date
-            if (startDate && startDate !== endDate) {
-                g_form.setValue('end_date', startDate);
-                g_form.showFieldMsg('end_date', 'End date set to match start date for half-day leave.', 'info');
-            }
-        } 
-        // --- SCENARIO 2: "Is Half Day" is UNCHECKED ---
-        else {
-            // If we have both dates, calculate the range
-            if (startDate && endDate) {
-                var start = new Date(startDate);
-                var end = new Date(endDate);
-
-                // Check if end date is before start date
-                if (start > end) {
-                     g_form.showFieldMsg('end_date', 'End date cannot be before start date.', 'error');
-                     g_form.setValue('duration', '1.00'); // Reset to 1
-                     return; // Stop further calculation
-                }
-
-                var timeDiff = end.getTime() - start.getTime();
-                var dayDiff = (timeDiff / (1000 * 3600 * 24)) + 1;
-                g_form.setValue('duration', dayDiff.toFixed(2));
-            } else {
-                // If one or both dates are missing, default to 1 day
-                g_form.setValue('duration', '1.00');
-            }
+        
+        if (!startDate || !endDate) {
+            return;
         }
-    } catch (e) {
-        console.error("Error in updateLeaveDetails: " + e.message);
+        
+        // First get the country for the user
+        getCountryForUser(function(countryId) {
+            // Then calculate duration with the country
+            calculateDurationWithCountry(countryId);
+        });
+    } catch (ex) {
+        console.error('Error in duration calculation:', ex);
+    }
+    
+    function getCountryForUser(callback) {
+        var userId = g_form.getValue('requested_by');
+        
+        var ga = new GlideAjax('HolidayAjax');
+        ga.addParam('sysparm_name', 'getUserCountry');
+        ga.addParam('sysparm_user_id', userId);
+        
+        ga.getXML(function(response) {
+            var countryId = response.responseXML.documentElement.getAttribute("answer");
+            if (countryId) {
+                // Set the country field in the database
+                g_form.setValue('country', countryId);
+                console.log('Country set to: ' + countryId);
+                
+                if (callback) callback(countryId);
+            } else {
+                console.log('Could not determine country');
+                if (callback) callback('');
+            }
+        });
+    }
+    
+    function calculateDurationWithCountry(countryId) {
+        var ga = new GlideAjax('HolidayAjax');
+        ga.addParam('sysparm_name', 'calculateDuration');
+        ga.addParam('sysparm_start_date', g_form.getValue('start_date'));
+        ga.addParam('sysparm_end_date', g_form.getValue('end_date'));
+        ga.addParam('sysparm_country', countryId);
+        ga.addParam('sysparm_half_day', g_form.getValue('is_half_day'));
+        
+        ga.getXML(function(response) {
+            var duration = response.responseXML.documentElement.getAttribute("answer");
+            if (duration) {
+                // Set the duration field in the database
+                g_form.setValue('duration', duration);
+                
+                // Display duration message
+                var durationValue = parseFloat(duration);
+                var durationText = durationValue == 1 ? "1 day" : durationValue + " days";
+                
+                // Remove any existing duration messages
+                var messages = g_form.getMessages();
+                for (var key in messages) {
+                    if (messages[key].text && messages[key].text.indexOf('Leave duration:') === 0) {
+                        g_form.clearMessage(key);
+                    }
+                }
+                
+                // Add new duration message
+                g_form.addInfoMessage("Leave duration: " + durationText);
+            }
+        });
     }
 }]]></script>
         <sys_class_name>sys_script_client</sys_class_name>
@@ -64,7 +92,7 @@ function onChange(control, oldValue, newValue, isLoading) {
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>2d873e61c3762210a7f1b813e4013186</sys_id>
-        <sys_mod_count>12</sys_mod_count>
+        <sys_mod_count>21</sys_mod_count>
         <sys_name>calculate leave duration for end date</sys_name>
         <sys_overrides/>
         <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
@@ -72,7 +100,7 @@ function onChange(control, oldValue, newValue, isLoading) {
         <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
         <sys_update_name>sys_script_client_2d873e61c3762210a7f1b813e4013186</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-07-19 13:03:58</sys_updated_on>
+        <sys_updated_on>2025-07-29 10:34:40</sys_updated_on>
         <table>x_1800027_leve_sys_leave_request</table>
         <type>onChange</type>
         <ui_type>10</ui_type>

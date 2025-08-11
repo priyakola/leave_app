@@ -11,50 +11,115 @@
         <name>Handle Half Day Change</name>
         <order/>
         <script><![CDATA[function onChange(control, oldValue, newValue, isLoading) {
-    // Exit if the form is loading
-    if (isLoading) {
+    if (isLoading || oldValue === newValue) {
         return;
     }
-
-    var isHalfDay = (newValue === 'true');
-
-    // --- Logic for when "Is Half Day" is CHECKED ---
+    
+    var isHalfDay = newValue === 'true';
+    
     if (isHalfDay) {
-        // Set duration to 0.5
-        g_form.setValue('duration', '0.50');
-
-        // Enforce the same start and end date
+        // When half-day is checked
         var startDate = g_form.getValue('start_date');
         if (startDate) {
-            var endDate = g_form.getValue('end_date');
-            // If end date is different, set it to match the start date
-            if (startDate !== endDate) {
-                g_form.setValue('end_date', startDate);
-                g_form.showFieldMsg('end_date', 'End date set to match start date for half-day leave.', 'info');
-            }
+            g_form.setValue('end_date', startDate);
         }
-    } 
-    // --- Logic for when "Is Half Day" is UNCHECKED ---
-    else {
-        // Recalculate duration for a full day or date range
+        g_form.setReadOnly('end_date', true);
+    } else {
+        // When half-day is unchecked
+        
+        // Make the field editable
+        g_form.setReadOnly('end_date', false);
+        
+        // Important: Don't clear the end date value
+        // This allows the user to either keep the same date or change it
+        
+        // Add a message to guide the user
+        g_form.addInfoMessage('You can now edit the end date. Please update it if needed.');
+    }
+    
+    // Always update duration when half-day status changes
+    updateDuration();
+    
+    function updateDuration() {
         var startDate = g_form.getValue('start_date');
         var endDate = g_form.getValue('end_date');
-
-        if (startDate && endDate) {
-            var start = new Date(startDate);
-            var end = new Date(endDate);
-            
-            // Calculate day difference (inclusive)
-            var timeDiff = end.getTime() - start.getTime();
-            var dayDiff = (timeDiff / (1000 * 3600 * 24)) + 1;
-            
-            // Ensure duration is at least 1 and format it
-            dayDiff = Math.max(1, dayDiff);
-            g_form.setValue('duration', dayDiff.toFixed(2));
-        } else {
-            // Default to 1 day if dates are not set
-            g_form.setValue('duration', '1.00');
+        var country = g_form.getValue('country');
+        var isHalfDay = g_form.getValue('is_half_day') === 'true';
+        
+        // Exit if we don't have all required fields
+        if (!startDate || !endDate || !country) {
+            return;
         }
+        
+        // Call server to calculate duration
+        var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+        ga.addParam('sysparm_name', 'calculateDuration');
+        ga.addParam('sysparm_start_date', startDate);
+        ga.addParam('sysparm_end_date', endDate);
+        ga.addParam('sysparm_country', country);
+        ga.addParam('sysparm_half_day', isHalfDay);
+        
+        ga.getXMLAnswer(function(duration) {
+            g_form.setValue('duration', duration);
+            
+            // Now get non-working days for display
+            showNonWorkingDays(startDate, endDate, country, duration, isHalfDay);
+        });
+    }
+    
+    function showNonWorkingDays(startDate, endDate, country, duration, isHalfDay) {
+        var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+        ga.addParam('sysparm_name', 'getNonWorkingDays');
+        ga.addParam('sysparm_start_date', startDate);
+        ga.addParam('sysparm_end_date', endDate);
+        ga.addParam('sysparm_country', country);
+        
+        ga.getXMLAnswer(function(answer) {
+            try {
+                var nonWorkingDays = JSON.parse(answer);
+                
+                if (nonWorkingDays.length > 0) {
+                    // Group by type
+                    var holidays = [];
+                    var weekends = [];
+                    
+                    for (var i = 0; i < nonWorkingDays.length; i++) {
+                        var day = nonWorkingDays[i];
+                        if (day.type === 'holiday') {
+                            holidays.push(day);
+                        } else {
+                            weekends.push(day);
+                        }
+                    }
+                    
+                    // Build message
+                    var message = '';
+                    
+                    if (holidays.length > 0) {
+                        message += 'Holidays in selected range:\n';
+                        for (var j = 0; j < holidays.length; j++) {
+                            var holiday = holidays[j];
+                            var holidayDate = new GlideDateTime(holiday.date).getDisplayValue();
+                            message += '- ' + holidayDate + ': ' + holiday.reason.replace('Holiday: ', '') + '\n';
+                        }
+                    }
+                    
+                    if (weekends.length > 0) {
+                        if (message) message += '\n';
+                        message += 'Weekends in selected range: ' + weekends.length + ' days\n';
+                    }
+                    
+                    message += '\nWorking days: ' + duration;
+                    if (isHalfDay) {
+                        message += ' (includes half-day adjustment)';
+                    }
+                    
+                    g_form.addInfoMessage(message);
+                }
+            } catch (e) {
+                console.error('Error processing non-working days: ' + e);
+            }
+        });
     }
 }]]></script>
         <sys_class_name>sys_script_client</sys_class_name>
@@ -63,7 +128,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>d095eea9c3f22210a7f1b813e4013118</sys_id>
-        <sys_mod_count>6</sys_mod_count>
+        <sys_mod_count>16</sys_mod_count>
         <sys_name>Handle Half Day Change</sys_name>
         <sys_overrides/>
         <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
@@ -71,7 +136,7 @@
         <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
         <sys_update_name>sys_script_client_d095eea9c3f22210a7f1b813e4013118</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-07-19 13:04:05</sys_updated_on>
+        <sys_updated_on>2025-07-21 17:14:35</sys_updated_on>
         <table>x_1800027_leve_sys_leave_request</table>
         <type>onChange</type>
         <ui_type>10</ui_type>

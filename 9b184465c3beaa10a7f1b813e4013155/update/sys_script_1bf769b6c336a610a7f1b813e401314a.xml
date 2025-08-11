@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Calculate Duration with Holidays</name>
+        <order>20</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous) {
+    try {
+        gs.info('=== Calculate Duration with Holidays ===');
+
+        // Only run when dates, country, or half_day fields change
+        if (previous &&
+            current.start_date.toString() === previous.start_date.toString() &&
+            current.end_date.toString() === previous.end_date.toString() &&
+            current.country.toString() === previous.country.toString() &&
+            current.is_half_day == previous.is_half_day &&
+            current.half_day_period == previous.half_day_period) {
+            gs.info('No relevant changes, skipping calculation');
+            return;
+        }
+
+        // Get country from employee profile if not set directly
+        var countryValue = '';
+        if (current.country && !current.country.nil()) {
+            countryValue = current.country.toString();
+            gs.info('Using country from form: ' + countryValue);
+        } else if (current.employee && !current.employee.nil()) {
+            var employeeGR = new GlideRecordSecure('sys_user');
+            if (employeeGR.get(current.employee)) {
+                if (employeeGR.country && !employeeGR.country.nil()) {
+                    countryValue = employeeGR.country.toString();
+                    gs.info('Using country from employee profile: ' + countryValue);
+                    
+                    // Set the country field on the form
+                    current.country = employeeGR.country;
+                }
+            }
+        }
+
+        if (!countryValue) {
+            gs.addWarningMessage("Country not found in employee profile. Please contact HR to update your profile.");
+            gs.info('Missing country information');
+            return;
+        }
+
+        if (!current.start_date || !current.end_date) {
+            gs.info('Missing required date fields');
+            return;
+        }
+
+        // Debug the half-day field values
+        gs.info('Is half day: ' + current.is_half_day);
+        gs.info('Half day period: ' + current.half_day_period);
+
+        // If half-day is selected, ensure end date equals start date
+        if (current.is_half_day == true && current.start_date.toString() !== current.end_date.toString()) {
+            current.end_date = current.start_date;
+            gs.info('Set end date equal to start date for half-day request');
+        }
+
+        // Calculate working days excluding holidays and weekends
+        var holidayMgr = new x_1800027_leve_sys.HolidayManager();
+
+        // Extract only the date part (YYYY-MM-DD)
+        var startDateStr = new GlideDateTime(current.start_date).getDate();
+        var endDateStr = new GlideDateTime(current.end_date).getDate();
+
+        var workingDays = holidayMgr.calculateWorkingDays(
+            startDateStr,
+            endDateStr,
+            countryValue  // Use the countryValue variable instead of current.country.toString()
+        );
+
+        gs.info('Calculated working days: ' + workingDays);
+
+        // Adjust for half day if needed - only if is_half_day is true
+        if (current.is_half_day == true) {
+            workingDays = workingDays - 0.5;
+            gs.info('Adjusted for half day: ' + workingDays);
+        }
+
+        // Update duration field
+        current.duration = workingDays;
+
+        gs.info('Set duration to: ' + workingDays);
+
+    } catch (ex) {
+        gs.error('Error calculating duration: ' + ex);
+        gs.error('Stack: ' + ex.stack);
+    }
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 10:21:04</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>1bf769b6c336a610a7f1b813e401314a</sys_id>
+        <sys_mod_count>9</sys_mod_count>
+        <sys_name>Calculate Duration with Holidays</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_1bf769b6c336a610a7f1b813e401314a</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 05:06:29</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=1bf769b6c336a610a7f1b813e401314a"/>
+</record_update>

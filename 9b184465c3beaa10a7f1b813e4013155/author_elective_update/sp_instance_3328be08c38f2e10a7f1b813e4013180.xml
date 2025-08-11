@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_instance">
+    <sp_instance action="DELETE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph/>
+        <id/>
+        <order>1</order>
+        <roles/>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="2">f6187e08c38f2e10a7f1b813e401310f</sp_column>
+        <sp_widget display_value="HTML">8679ef89cb21120000f8d856634c9c4f</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 13:23:03</sys_created_on>
+        <sys_id>3328be08c38f2e10a7f1b813e4013180</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sp_instance_3328be08c38f2e10a7f1b813e4013180</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 13:23:14</sys_updated_on>
+        <title/>
+        <url/>
+        <widget_parameters><![CDATA[{
+	"html": {
+		"value": "<div class=\"text-right\"><a class=\"btn btn-primary btn-sm\" href=\"x_1800027_leve_sys_leave_request.do?sys_id=-1&amp;sysparm_view=portal\" target=\"_blank\" rel=\"noopener\"> Request Leave </a></div>",
+		"displayValue": "<div class=\"text-right\"><a class=\"btn btn-primary btn-sm\" href=\"x_1800027_leve_sys_leave_request.do?sys_id=-1&amp;sysparm_view=portal\" target=\"_blank\" rel=\"noopener\"> Request Leave </a></div>"
+	}
+}]]></widget_parameters>
+    </sp_instance>
+    <sys_translated_text action="DELETE" query="documentkey=3328be08c38f2e10a7f1b813e4013180"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sp_instance_3328be08c38f2e10a7f1b813e4013180</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sp_instance"&gt;&lt;sp_instance action="INSERT_OR_UPDATE"&gt;&lt;active&gt;true&lt;/active&gt;&lt;class_name/&gt;&lt;color&gt;default&lt;/color&gt;&lt;css/&gt;&lt;glyph/&gt;&lt;id/&gt;&lt;order&gt;1&lt;/order&gt;&lt;roles/&gt;&lt;short_description/&gt;&lt;size&gt;md&lt;/size&gt;&lt;sp_column display_value="2"&gt;f6187e08c38f2e10a7f1b813e401310f&lt;/sp_column&gt;&lt;sp_widget display_value="HTML"&gt;8679ef89cb21120000f8d856634c9c4f&lt;/sp_widget&gt;&lt;sys_class_name&gt;sp_instance&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-25 13:23:03&lt;/sys_created_on&gt;&lt;sys_id&gt;3328be08c38f2e10a7f1b813e4013180&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name/&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sp_instance_3328be08c38f2e10a7f1b813e4013180&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-25 13:23:14&lt;/sys_updated_on&gt;&lt;title/&gt;&lt;url/&gt;&lt;widget_parameters&gt;&lt;![CDATA[{
+	"html": {
+		"value": "&lt;div class=\"text-right\"&gt;&lt;a class=\"btn btn-primary btn-sm\" href=\"x_1800027_leve_sys_leave_request.do?sys_id=-1&amp;amp;sysparm_view=portal\" target=\"_blank\" rel=\"noopener\"&gt; Request Leave &lt;/a&gt;&lt;/div&gt;",
+		"displayValue": "&lt;div class=\"text-right\"&gt;&lt;a class=\"btn btn-primary btn-sm\" href=\"x_1800027_leve_sys_leave_request.do?sys_id=-1&amp;amp;sysparm_view=portal\" target=\"_blank\" rel=\"noopener\"&gt; Request Leave &lt;/a&gt;&lt;/div&gt;"
+	}
+}]]&gt;&lt;/widget_parameters&gt;&lt;/sp_instance&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=3328be08c38f2e10a7f1b813e4013180"/&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1399159086</payload_hash>
+        <record_name/>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 13:23:14</sys_created_on>
+        <sys_id>9238b608c38f2e10a7f1b813e401318b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19841c08b490000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 13:23:14</sys_updated_on>
+        <type>Instance</type>
+        <update_guid>1a38b608d68f2e10fb1b2f3f5dd4e88a</update_guid>
+        <update_guid_history>1a38b608d68f2e10fb1b2f3f5dd4e88a:1399159086,3b28be08e58f2e10a3c7386c00f48781:-1132750946</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="">7ca87a48c38f2e10a7f1b813e401311d</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 13:25:02</sys_created_on>
+        <sys_db_object display_value="" name="sp_instance">sp_instance</sys_db_object>
+        <sys_id>36006284dbb64e50a854ea88b676e264</sys_id>
+        <sys_metadata>3328be08c38f2e10a7f1b813e4013180</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sp_instance_3328be08c38f2e10a7f1b813e4013180</sys_update_name>
+        <sys_update_version display_value="sp_instance_3328be08c38f2e10a7f1b813e4013180">9238b608c38f2e10a7f1b813e401318b</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 13:25:02</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

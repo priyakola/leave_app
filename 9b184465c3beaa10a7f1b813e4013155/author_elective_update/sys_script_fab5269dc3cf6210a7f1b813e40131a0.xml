@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="DELETE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>false</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Set Approver from Manager</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+    try {
+        // Only run on new records or when employee changes
+        if (!current.isNewRecord() && !current.employee.changes()) {
+            return;
+        }
+        
+        // Skip if approver is already set
+        if (!current.approver.nil()) {
+            gs.info("[Set Approver] Approver already set to: " + current.approver.getDisplayValue());
+            return;
+        }
+        
+        // Get employee details using GlideRecordSecure for security compliance
+        var userGR = new GlideRecordSecure('sys_user');
+        if (userGR.get(current.employee)) {
+            // If employee has a manager set, use it as approver
+            if (!userGR.manager.nil()) {
+                current.approver = userGR.manager;
+                gs.info("[Set Approver] Set approver to " + userGR.manager.getDisplayValue() + " from employee profile");
+            } else {
+                gs.info("[Set Approver] Employee has no manager set in profile");
+            }
+        }
+    } catch (e) {
+        gs.error("[Set Approver] Error: " + e);
+    }
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 09:15:36</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>fab5269dc3cf6210a7f1b813e40131a0</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Set Approver from Manager</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_fab5269dc3cf6210a7f1b813e40131a0</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 09:15:36</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="DELETE" query="documentkey=fab5269dc3cf6210a7f1b813e40131a0"/>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_script_fab5269dc3cf6210a7f1b813e40131a0</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script"&gt;&lt;sys_script action="INSERT_OR_UPDATE"&gt;&lt;abort_action&gt;false&lt;/abort_action&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;action_delete&gt;false&lt;/action_delete&gt;&lt;action_insert&gt;true&lt;/action_insert&gt;&lt;action_query&gt;false&lt;/action_query&gt;&lt;action_update&gt;false&lt;/action_update&gt;&lt;active&gt;true&lt;/active&gt;&lt;add_message&gt;false&lt;/add_message&gt;&lt;advanced&gt;true&lt;/advanced&gt;&lt;change_fields&gt;false&lt;/change_fields&gt;&lt;client_callable&gt;false&lt;/client_callable&gt;&lt;collection&gt;x_1800027_leve_sys_leave_request&lt;/collection&gt;&lt;condition/&gt;&lt;description/&gt;&lt;execute_function&gt;false&lt;/execute_function&gt;&lt;filter_condition/&gt;&lt;is_rest&gt;false&lt;/is_rest&gt;&lt;message/&gt;&lt;name&gt;Set Approver from Manager&lt;/name&gt;&lt;order&gt;100&lt;/order&gt;&lt;priority&gt;100&lt;/priority&gt;&lt;rest_method/&gt;&lt;rest_method_text/&gt;&lt;rest_service/&gt;&lt;rest_service_text/&gt;&lt;rest_variables/&gt;&lt;role_conditions/&gt;&lt;script&gt;&lt;![CDATA[(function executeRule(current, previous /*null when async*/) {
+    try {
+        // Only run on new records or when employee changes
+        if (!current.isNewRecord() &amp;&amp; !current.employee.changes()) {
+            return;
+        }
+        
+        // Skip if approver is already set
+        if (!current.approver.nil()) {
+            gs.info("[Set Approver] Approver already set to: " + current.approver.getDisplayValue());
+            return;
+        }
+        
+        // Get employee details using GlideRecordSecure for security compliance
+        var userGR = new GlideRecordSecure('sys_user');
+        if (userGR.get(current.employee)) {
+            // If employee has a manager set, use it as approver
+            if (!userGR.manager.nil()) {
+                current.approver = userGR.manager;
+                gs.info("[Set Approver] Set approver to " + userGR.manager.getDisplayValue() + " from employee profile");
+            } else {
+                gs.info("[Set Approver] Employee has no manager set in profile");
+            }
+        }
+    } catch (e) {
+        gs.error("[Set Approver] Error: " + e);
+    }
+})(current, previous);]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-29 09:15:36&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;fab5269dc3cf6210a7f1b813e40131a0&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;Set Approver from Manager&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_fab5269dc3cf6210a7f1b813e40131a0&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-29 09:15:36&lt;/sys_updated_on&gt;&lt;template/&gt;&lt;when&gt;before&lt;/when&gt;&lt;/sys_script&gt;&lt;sys_translated_text action="delete_multiple" query="documentkey=fab5269dc3cf6210a7f1b813e40131a0"/&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1243282089</payload_hash>
+        <record_name>Set Approver from Manager</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 09:15:36</sys_created_on>
+        <sys_id>f9e562ddc3cf6210a7f1b813e4013156</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1985577449b0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 09:15:36</sys_updated_on>
+        <type>Business Rule</type>
+        <update_guid>bde562dd99cf6210b9bb8af6926d8955</update_guid>
+        <update_guid_history>bde562dd99cf6210b9bb8af6926d8955:1243282089</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 09:42:39</sys_created_on>
+        <sys_db_object display_value="" name="sys_script">sys_script</sys_db_object>
+        <sys_id>0322429009034b569425dcc4d2956e64</sys_id>
+        <sys_metadata>fab5269dc3cf6210a7f1b813e40131a0</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Set Approver from Manager</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent display_value="Leave Request">018dd865c332ea10a7f1b813e40131de</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_script_fab5269dc3cf6210a7f1b813e40131a0</sys_update_name>
+        <sys_update_version display_value="sys_script_fab5269dc3cf6210a7f1b813e40131a0">f9e562ddc3cf6210a7f1b813e4013156</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 09:42:39</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

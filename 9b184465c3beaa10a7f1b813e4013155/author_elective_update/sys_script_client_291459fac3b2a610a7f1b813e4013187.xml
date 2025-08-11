@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="DELETE">
+        <active>false</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>NonWorking Days</name>
+        <order/>
+        <script><![CDATA[// Client script to show holidays and weekends when selecting dates
+function onChange(control, oldValue, newValue, isLoading) {
+    if (isLoading || newValue === '') {
+        return;
+    }
+    
+    // Only run when both start and end dates are set
+    var startDate = g_form.getValue('start_date');
+    var endDate = g_form.getValue('end_date');
+    var country = g_form.getValue('country');
+    
+    if (!startDate || !endDate || !country) {
+        return;
+    }
+    
+    // Call server to get non-working days
+    var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+    ga.addParam('sysparm_name', 'getNonWorkingDays');
+    ga.addParam('sysparm_start_date', startDate);
+    ga.addParam('sysparm_end_date', endDate);
+    ga.addParam('sysparm_country', country);
+    
+    ga.getXMLAnswer(function(answer) {
+        try {
+            var nonWorkingDays = JSON.parse(answer);
+            
+            if (nonWorkingDays.length > 0) {
+                // Group by type
+                var holidays = [];
+                var weekends = [];
+                
+                for (var i = 0; i < nonWorkingDays.length; i++) {
+                    var day = nonWorkingDays[i];
+                    if (day.type === 'holiday') {
+                        holidays.push(day);
+                    } else {
+                        weekends.push(day);
+                    }
+                }
+                
+                // Build message
+                var message = '';
+                
+                if (holidays.length > 0) {
+                    message += 'Holidays in selected range:\n';
+                    for (var j = 0; j < holidays.length; j++) {
+                        var holiday = holidays[j];
+                        var holidayDate = new GlideDateTime(holiday.date).getDisplayValue();
+                        message += '- ' + holidayDate + ': ' + holiday.reason.replace('Holiday: ', '') + '\n';
+                    }
+                }
+                
+                if (weekends.length > 0) {
+                    if (message) message += '\n';
+                    message += 'Weekends in selected range: ' + weekends.length + ' days\n';
+                }
+                
+                // Calculate working days
+                var ga2 = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+                ga2.addParam('sysparm_name', 'calculateWorkingDays');
+                ga2.addParam('sysparm_start_date', startDate);
+                ga2.addParam('sysparm_end_date', endDate);
+                ga2.addParam('sysparm_country', country);
+                
+                ga2.getXMLAnswer(function(workingDays) {
+                    message += '\nWorking days: ' + workingDays;
+                    g_form.addInfoMessage(message);
+                    
+                    // Auto-populate duration field
+                    if (g_form.getValue('duration') === '') {
+                        g_form.setValue('duration', workingDays);
+                    }
+                });
+            }
+        } catch (e) {
+            console.error('Error processing non-working days: ' + e);
+        }
+    });
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 08:53:59</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>291459fac3b2a610a7f1b813e4013187</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>NonWorking Days</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_client_291459fac3b2a610a7f1b813e4013187</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 08:56:39</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <type>onChange</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_script_client_291459fac3b2a610a7f1b813e4013187</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update sys_domain="global" table="sys_script_client"&gt;&lt;sys_script_client action="INSERT_OR_UPDATE"&gt;&lt;active&gt;false&lt;/active&gt;&lt;applies_extended&gt;false&lt;/applies_extended&gt;&lt;condition/&gt;&lt;description/&gt;&lt;field/&gt;&lt;global&gt;true&lt;/global&gt;&lt;isolate_script&gt;true&lt;/isolate_script&gt;&lt;messages/&gt;&lt;name&gt;NonWorking Days&lt;/name&gt;&lt;order/&gt;&lt;script&gt;&lt;![CDATA[// Client script to show holidays and weekends when selecting dates
+function onChange(control, oldValue, newValue, isLoading) {
+    if (isLoading || newValue === '') {
+        return;
+    }
+    
+    // Only run when both start and end dates are set
+    var startDate = g_form.getValue('start_date');
+    var endDate = g_form.getValue('end_date');
+    var country = g_form.getValue('country');
+    
+    if (!startDate || !endDate || !country) {
+        return;
+    }
+    
+    // Call server to get non-working days
+    var ga = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+    ga.addParam('sysparm_name', 'getNonWorkingDays');
+    ga.addParam('sysparm_start_date', startDate);
+    ga.addParam('sysparm_end_date', endDate);
+    ga.addParam('sysparm_country', country);
+    
+    ga.getXMLAnswer(function(answer) {
+        try {
+            var nonWorkingDays = JSON.parse(answer);
+            
+            if (nonWorkingDays.length &gt; 0) {
+                // Group by type
+                var holidays = [];
+                var weekends = [];
+                
+                for (var i = 0; i &lt; nonWorkingDays.length; i++) {
+                    var day = nonWorkingDays[i];
+                    if (day.type === 'holiday') {
+                        holidays.push(day);
+                    } else {
+                        weekends.push(day);
+                    }
+                }
+                
+                // Build message
+                var message = '';
+                
+                if (holidays.length &gt; 0) {
+                    message += 'Holidays in selected range:\n';
+                    for (var j = 0; j &lt; holidays.length; j++) {
+                        var holiday = holidays[j];
+                        var holidayDate = new GlideDateTime(holiday.date).getDisplayValue();
+                        message += '- ' + holidayDate + ': ' + holiday.reason.replace('Holiday: ', '') + '\n';
+                    }
+                }
+                
+                if (weekends.length &gt; 0) {
+                    if (message) message += '\n';
+                    message += 'Weekends in selected range: ' + weekends.length + ' days\n';
+                }
+                
+                // Calculate working days
+                var ga2 = new GlideAjax('x_1800027_leve_sys.HolidayAjax');
+                ga2.addParam('sysparm_name', 'calculateWorkingDays');
+                ga2.addParam('sysparm_start_date', startDate);
+                ga2.addParam('sysparm_end_date', endDate);
+                ga2.addParam('sysparm_country', country);
+                
+                ga2.getXMLAnswer(function(workingDays) {
+                    message += '\nWorking days: ' + workingDays;
+                    g_form.addInfoMessage(message);
+                    
+                    // Auto-populate duration field
+                    if (g_form.getValue('duration') === '') {
+                        g_form.setValue('duration', workingDays);
+                    }
+                });
+            }
+        } catch (e) {
+            console.error('Error processing non-working days: ' + e);
+        }
+    });
+}]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_client&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-21 08:53:59&lt;/sys_created_on&gt;&lt;sys_domain&gt;global&lt;/sys_domain&gt;&lt;sys_domain_path&gt;/&lt;/sys_domain_path&gt;&lt;sys_id&gt;291459fac3b2a610a7f1b813e4013187&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;NonWorking Days&lt;/sys_name&gt;&lt;sys_overrides/&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy/&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_client_291459fac3b2a610a7f1b813e4013187&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-21 08:56:39&lt;/sys_updated_on&gt;&lt;table&gt;x_1800027_leve_sys_leave_request&lt;/table&gt;&lt;type&gt;onChange&lt;/type&gt;&lt;ui_type&gt;10&lt;/ui_type&gt;&lt;view/&gt;&lt;/sys_script_client&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>147987541</payload_hash>
+        <record_name>NonWorking Days</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 08:56:39</sys_created_on>
+        <sys_id>9ad4593ec3b2a610a7f1b813e401313b</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>1982c330b630000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 08:56:39</sys_updated_on>
+        <type>Client Script</type>
+        <update_guid>12d4593e0fb2a61002bc32717010423b</update_guid>
+        <update_guid_history>12d4593e0fb2a61002bc32717010423b:147987541,cb3499facbb2a610eaf2d47cdea2f209:812535368</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 10:01:14</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_client">sys_script_client</sys_db_object>
+        <sys_id>57741fe095894f369fbdbccd4efbd261</sys_id>
+        <sys_metadata>291459fac3b2a610a7f1b813e4013187</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>NonWorking Days</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent display_value="Leave Request">018dd865c332ea10a7f1b813e40131de</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_script_client_291459fac3b2a610a7f1b813e4013187</sys_update_name>
+        <sys_update_version display_value="sys_script_client_291459fac3b2a610a7f1b813e4013187">9ad4593ec3b2a610a7f1b813e401313b</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 10:01:14</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl">
+    <sys_security_acl action="DELETE">
+        <active>true</active>
+        <admin_overrides>true</admin_overrides>
+        <advanced>false</advanced>
+        <applies_to/>
+        <condition/>
+        <controlled_by_refs/>
+        <decision_type>allow</decision_type>
+        <description/>
+        <local_or_existing>Local</local_or_existing>
+        <name>x_1800027_leve_sys_leave_balance</name>
+        <operation display_value="delete">delete</operation>
+        <script/>
+        <security_attribute/>
+        <sys_class_name>sys_security_acl</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 07:30:53</sys_created_on>
+        <sys_id>4fda18a1c332ea10a7f1b813e4013193</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1800027_leve_sys_leave_balance</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_security_acl_4fda18a1c332ea10a7f1b813e4013193</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-17 07:30:53</sys_updated_on>
+        <type display_value="record">record</type>
+    </sys_security_acl>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_security_acl_4fda18a1c332ea10a7f1b813e4013193</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl"><sys_security_acl action="INSERT_OR_UPDATE"><active>true</active><admin_overrides>true</admin_overrides><advanced>false</advanced><applies_to/><condition/><controlled_by_refs/><decision_type>allow</decision_type><description/><local_or_existing>Local</local_or_existing><name>x_1800027_leve_sys_leave_balance</name><operation display_value="delete">delete</operation><script/><security_attribute/><sys_class_name>sys_security_acl</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-07-17 07:30:53</sys_created_on><sys_id>4fda18a1c332ea10a7f1b813e4013193</sys_id><sys_mod_count>0</sys_mod_count><sys_name>x_1800027_leve_sys_leave_balance</sys_name><sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package><sys_policy/><sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope><sys_update_name>sys_security_acl_4fda18a1c332ea10a7f1b813e4013193</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-07-17 07:30:53</sys_updated_on><type display_value="record">record</type></sys_security_acl></record_update>]]></payload>
+        <payload_hash>-2114156201</payload_hash>
+        <record_name>x_1800027_leve_sys_leave_balance</record_name>
+        <reverted_from/>
+        <source>97184465c3beaa10a7f1b813e4013157</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-17 07:30:53</sys_created_on>
+        <sys_id>cbda18a1c332ea10a7f1b813e4013196</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>198174b173d0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-17 07:30:53</sys_updated_on>
+        <type>Access Control</type>
+        <update_guid>cfda18a1a032ea1075e8280a5c5a1795</update_guid>
+        <update_guid_history>cfda18a1a032ea1075e8280a5c5a1795:-2114156201</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 06:51:26</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl">sys_security_acl</sys_db_object>
+        <sys_id>08e53ad73b07492aa76313d185f7ca81</sys_id>
+        <sys_metadata>4fda18a1c332ea10a7f1b813e4013193</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>x_1800027_leve_sys_leave_balance</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent display_value="x_1800027_leve_sys_leave_balance">69dad4a1c332ea10a7f1b813e401313b</sys_parent>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_security_acl_4fda18a1c332ea10a7f1b813e4013193</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_4fda18a1c332ea10a7f1b813e4013193">cbda18a1c332ea10a7f1b813e4013196</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 06:51:26</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

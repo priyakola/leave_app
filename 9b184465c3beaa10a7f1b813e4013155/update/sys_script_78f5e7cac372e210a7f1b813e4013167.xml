@@ -19,7 +19,7 @@
         <is_rest>false</is_rest>
         <message/>
         <name>Handle Leave Status Changes</name>
-        <order>52</order>
+        <order>40</order>
         <priority>100</priority>
         <rest_method/>
         <rest_method_text/>
@@ -63,7 +63,7 @@
     function updateLeaveBalance(leaveRequest, action) {
         try {
             // Get the leave balance record
-            var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+            var balanceGR = new GlideRecordSecure('x_1800027_leve_sys_leave_balance');
             balanceGR.addQuery('employee', leaveRequest.requested_by);
             balanceGR.addQuery('leave_type', leaveRequest.leave_type);
             
@@ -126,7 +126,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>78f5e7cac372e210a7f1b813e4013167</sys_id>
-        <sys_mod_count>9</sys_mod_count>
+        <sys_mod_count>12</sys_mod_count>
         <sys_name>Handle Leave Status Changes</sys_name>
         <sys_overrides/>
         <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
@@ -134,7 +134,7 @@
         <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
         <sys_update_name>sys_script_78f5e7cac372e210a7f1b813e4013167</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-07-21 04:31:36</sys_updated_on>
+        <sys_updated_on>2025-07-23 09:31:11</sys_updated_on>
         <template/>
         <when>after</when>
     </sys_script>

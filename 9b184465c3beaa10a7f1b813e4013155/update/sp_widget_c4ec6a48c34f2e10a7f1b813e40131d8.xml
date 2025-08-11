@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <category>custom</category>
+        <client_script><![CDATA[api.controller=function($scope, $window, $timeout) {
+  var c = this;
+  
+  c.showForm = true;
+  c.submitted = false;
+  c.submitting = false;
+  c.request = {
+    is_half_day: false,
+    half_day_period: 'morning'
+  };
+  c.leaveTypes = [];
+  c.message = '';
+  c.messageType = 'info';
+  
+  c.$onInit = function() {
+    c.server.get().then(function() {
+      // Initialize with default values
+      if (c.data.currentUser) {
+        c.request.requested_by = c.data.currentUser.sys_id;
+      }
+      
+      c.leaveTypes = c.data.leaveTypes || [];
+    });
+  };
+  
+  c.updateDuration = function() {
+    if (c.request.start_date && c.request.end_date) {
+      c.server.get({
+        action: 'calculateDuration',
+        start_date: c.request.start_date,
+        end_date: c.request.end_date,
+        is_half_day: c.request.is_half_day
+      }).then(function(response) {
+        c.request.duration = c.data.duration;
+        
+        if (c.data.message) {
+          c.message = c.data.message;
+          c.messageType = c.data.messageType || 'info';
+        } else {
+          c.message = '';
+        }
+      });
+    }
+  };
+  
+  c.halfDayChanged = function() {
+    if (c.request.is_half_day) {
+      // For half day, end date is same as start date
+      c.request.end_date = c.request.start_date;
+    }
+    c.updateDuration();
+  };
+  
+  c.submitForm = function() {
+    c.submitting = true;
+    c.message = '';
+    
+    c.server.get({
+      action: 'submitRequest',
+      request: c.request
+    }).then(function(response) {
+      c.submitting = false;
+      
+      if (c.data.error) {
+        c.message = c.data.error;
+        c.messageType = 'danger';
+      } else {
+        c.showForm = false;
+        c.submitted = true;
+        c.requestNumber = c.data.requestNumber;
+      }
+    });
+  };
+  
+  c.cancel = function() {
+    c.goToDashboard();
+  };
+  
+  c.goToDashboard = function() {
+    $window.location.href = '?id=lms_app';
+  };
+  
+  c.newRequest = function() {
+    c.request = {
+      is_half_day: false,
+      half_day_period: 'morning'
+    };
+    c.message = '';
+    c.showForm = true;
+    c.submitted = false;
+  };
+};]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description>Custom form for submitting leave requests</description>
+        <docs/>
+        <field_list/>
+        <has_preview>false</has_preview>
+        <id>leave_request_form_widget</id>
+        <internal>false</internal>
+        <link><![CDATA[function link(scope, element, attrs, controller) {
+  
+}]]></link>
+        <name>Leave Request Form</name>
+        <option_schema/>
+        <public>false</public>
+        <roles>x_1800027_leve_sys.leave_manager,x_1800027_leve_sys.leave_user,x_1800027_leve_sys.leave_hr_admin</roles>
+        <script><![CDATA[(function() {
+  // Get current user
+  data.currentUser = {
+    sys_id: gs.getUserID(),
+    name: gs.getUserName()
+  };
+  
+  // Get leave types
+  data.leaveTypes = [];
+  var leaveTypeGR = new GlideRecord('x_1800027_leve_sys_leave_type');
+  leaveTypeGR.query();
+  while (leaveTypeGR.next()) {
+    data.leaveTypes.push({
+      sys_id: leaveTypeGR.getUniqueValue(),
+      name: leaveTypeGR.name.toString()
+    });
+  }
+  
+  // Handle actions
+  if (input && input.action) {
+    switch(input.action) {
+      case 'calculateDuration':
+        calculateDuration();
+        break;
+      case 'submitRequest':
+        submitRequest();
+        break;
+    }
+  }
+  
+  // Calculate duration between dates
+  function calculateDuration() {
+    if (!input.start_date || !input.end_date) {
+      data.duration = 0;
+      return;
+    }
+    
+    try {
+      // Use your existing HolidayManager to calculate working days
+      var holidayManager = new x_1800027_leve_sys.HolidayManager();
+      var startDate = new GlideDateTime(input.start_date);
+      var endDate = new GlideDateTime(input.end_date);
+      
+      // For half day, duration is 0.5
+      if (input.is_half_day === true || input.is_half_day === 'true') {
+        data.duration = 0.5;
+      } else {
+        // Calculate working days
+        data.duration = holidayManager.getWorkingDaysBetweenDates(startDate, endDate);
+      }
+      
+      // Check leave balance
+      checkLeaveBalance();
+    } catch (e) {
+      gs.log('Error calculating duration: ' + e);
+      data.duration = 0;
+      data.message = 'Error calculating duration. Please try again.';
+      data.messageType = 'danger';
+    }
+  }
+  
+  // Check leave balance
+  function checkLeaveBalance() {
+    if (!input.start_date || !input.end_date || !data.currentUser.sys_id) {
+      return;
+    }
+    
+    try {
+      var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+      balanceGR.addQuery('employee', data.currentUser.sys_id);
+      if (input.leave_type) {
+        balanceGR.addQuery('leave_type', input.leave_type);
+      }
+      balanceGR.query();
+      
+      if (balanceGR.next()) {
+        var availableBalance = parseFloat(balanceGR.available_balance.toString());
+        
+        if (data.duration > availableBalance) {
+          data.message = 'Warning: The requested leave duration exceeds your available balance of ' + availableBalance + ' days.';
+          data.messageType = 'warning';
+        } else {
+          data.message = 'You have ' + availableBalance + ' days available.';
+          data.messageType = 'info';
+        }
+      }
+    } catch (e) {
+      gs.log('Error checking leave balance: ' + e);
+    }
+  }
+  
+  // Submit leave request
+  function submitRequest() {
+    if (!input.request) {
+      data.error = 'Invalid request data';
+      return;
+    }
+    
+    try {
+      var leaveGR = new GlideRecord('x_1800027_leve_sys_leave_request');
+      leaveGR.initialize();
+      
+      // Set fields from input
+      leaveGR.requested_by = data.currentUser.sys_id;
+      leaveGR.leave_type = input.request.leave_type;
+      leaveGR.start_date = input.request.start_date;
+      leaveGR.end_date = input.request.end_date;
+      leaveGR.is_half_day = input.request.is_half_day === true || input.request.is_half_day === 'true';
+      
+      if (leaveGR.is_half_day) {
+        leaveGR.half_day_period = input.request.half_day_period;
+      }
+      
+      leaveGR.comments = input.request.comments;
+      leaveGR.duration = input.request.duration;
+      leaveGR.status = 'requested'; // Initial status
+      
+      // Insert record
+      var result = leaveGR.insert();
+      
+      if (result) {
+        data.requestNumber = leaveGR.number.toString();
+      } else {
+        data.error = 'Failed to submit leave request. Please try again.';
+      }
+    } catch (e) {
+      gs.log('Error submitting leave request: ' + e);
+      data.error = 'Error: ' + e.message;
+    }
+  }
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 12:35:01</sys_created_on>
+        <sys_id>c4ec6a48c34f2e10a7f1b813e40131d8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Leave Request Form</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sp_widget_c4ec6a48c34f2e10a7f1b813e40131d8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 12:35:01</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Submit Leave Request</h3>
+  </div>
+  <div class="panel-body">
+    <div ng-if="c.showForm">
+      <form ng-submit="c.submitForm()" name="leaveForm">
+        <!-- Leave Type -->
+        <div class="form-group">
+          <label>Leave Type *</label>
+          <select ng-model="c.request.leave_type" class="form-control" required ng-change="c.updateDuration()">
+            <option ng-repeat="type in c.leaveTypes" value="{{type.sys_id}}">{{type.name}}</option>
+          </select>
+        </div>
+        
+        <!-- Date Selection -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Start Date *</label>
+              <div class="input-group">
+                <input type="date" class="form-control" ng-model="c.request.start_date" required ng-change="c.updateDuration()">
+                <span class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>End Date *</label>
+              <div class="input-group">
+                <input type="date" class="form-control" ng-model="c.request.end_date" required ng-change="c.updateDuration()" ng-disabled="c.request.is_half_day">
+                <span class="input-group-addon">
+                  <i class="fa fa-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Half Day Options -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="c.request.is_half_day" ng-change="c.halfDayChanged()"> Half Day
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" ng-if="c.request.is_half_day">
+            <div class="form-group">
+              <label>Period</label>
+              <select ng-model="c.request.half_day_period" class="form-control">
+                <option value="morning">Morning</option>
+                <option value="afternoon">Afternoon</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Duration -->
+        <div class="form-group">
+          <label>Duration (Days)</label>
+          <input type="text" class="form-control" ng-model="c.request.duration" readonly>
+        </div>
+        
+        <!-- Reason/Comments -->
+        <div class="form-group">
+          <label>Reason/Comments</label>
+          <textarea class="form-control" ng-model="c.request.comments" rows="3"></textarea>
+        </div>
+        
+        <!-- Messages -->
+        <div ng-if="c.message" class="alert" ng-class="'alert-' + c.messageType">
+          {{c.message}}
+        </div>
+        
+        <!-- Buttons -->
+        <div class="form-group text-right">
+          <button type="button" class="btn btn-default" ng-click="c.cancel()">Cancel</button>
+          <button type="submit" class="btn btn-primary" ng-disabled="leaveForm.$invalid || c.submitting">Submit</button>
+        </div>
+      </form>
+    </div>
+    
+    <div ng-if="!c.showForm && c.submitted">
+      <div class="alert alert-success">
+        <p><i class="fa fa-check-circle"></i> Your leave request has been submitted successfully.</p>
+        <p>Request number: {{c.requestNumber}}</p>
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn btn-default" ng-click="c.goToDashboard()">Return to Dashboard</button>
+        <button type="button" class="btn btn-primary" ng-click="c.newRequest()">Submit Another Request</button>
+      </div>
+    </div>
+  </div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

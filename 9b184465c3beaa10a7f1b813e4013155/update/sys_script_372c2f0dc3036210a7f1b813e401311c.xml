@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>true</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_1800027_leve_sys_leave_request</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>Set Country from Employee Profile</name>
+        <order>14</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/) {
+    try {
+        gs.info("[Set Country Dynamic] Starting for record: " + (current.number || "new record"));
+        
+        // Skip if country is already set
+        if (!current.country.nil()) {
+            gs.info("[Set Country Dynamic] Country already set to: " + current.country.getDisplayValue());
+            return;
+        }
+        
+        // Get requester details
+        var userId = current.requested_by;
+        if (userId.nil()) {
+            gs.info("[Set Country Dynamic] No requested_by set");
+            return;
+        }
+        
+        var userGR = new GlideRecord('sys_user');
+        if (userGR.get(userId)) {
+            gs.info("[Set Country Dynamic] Found user: " + userGR.name);
+            
+            // Try to get country from location reference
+            if (!userGR.location.nil()) {
+                gs.info("[Set Country Dynamic] User has location reference: " + userGR.location);
+                
+                var locationGR = new GlideRecord('cmn_location');
+                if (locationGR.get(userGR.location)) {
+                    gs.info("[Set Country Dynamic] Found location: " + locationGR.name);
+                    
+                    // Check if location has direct country reference
+                    if (!locationGR.country.nil()) {
+                        gs.info("[Set Country Dynamic] Location has country reference: " + locationGR.country);
+                        current.country = locationGR.country;
+                        gs.info("[Set Country Dynamic] Set country from location's country reference");
+                    } else {
+                        gs.info("[Set Country Dynamic] Location has no country reference");
+                        
+                        // Try to determine from location name/city
+                        var locationName = locationGR.name ? locationGR.name.toString().toLowerCase() : '';
+                        var locationCity = locationGR.city ? locationGR.city.toString().toLowerCase() : '';
+                        
+                        if (locationName.indexOf('brasilia') > -1 || locationCity.indexOf('brasilia') > -1) {
+                            setCountryByName(current, 'Brazil');
+                        } else {
+                            // Use default
+                            setDefaultCountry(current);
+                        }
+                    }
+                } else {
+                    gs.info("[Set Country Dynamic] Could not find location record");
+                    setDefaultCountry(current);
+                }
+            } else {
+                gs.info("[Set Country Dynamic] User has no location set");
+                setDefaultCountry(current);
+            }
+            
+            // Set approver if not already set
+            if (current.approver.nil() && !userGR.manager.nil()) {
+                current.approver = userGR.manager;
+                gs.info("[Set Country Dynamic] Set approver to: " + userGR.manager.getDisplayValue());
+            }
+        } else {
+            gs.info("[Set Country Dynamic] Could not find user record");
+            setDefaultCountry(current);
+        }
+    } catch (e) {
+        gs.error("[Set Country Dynamic] Error: " + e);
+    }
+    
+    // Helper function to set country by name
+    function setCountryByName(record, countryName) {
+        var countryGR = new GlideRecord('core_country');
+        countryGR.addQuery('name', countryName);
+        countryGR.query();
+        
+        if (countryGR.next()) {
+            record.country = countryGR.sys_id;
+            gs.info("[Set Country Dynamic] Set country to: " + countryName);
+            return true;
+        } else {
+            gs.info("[Set Country Dynamic] Country not found in core_country table: " + countryName);
+            
+            // Try with alternate spelling (Brasil vs Brazil)
+            if (countryName == 'Brazil') {
+                countryGR = new GlideRecord('core_country');
+                countryGR.addQuery('name', 'Brasil');
+                countryGR.query();
+                
+                if (countryGR.next()) {
+                    record.country = countryGR.sys_id;
+                    gs.info("[Set Country Dynamic] Set country to Brasil (alternate spelling)");
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+    }
+    
+    // Helper function to set default country (India)
+    function setDefaultCountry(record) {
+        setCountryByName(record, 'India');
+    }
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-28 19:46:27</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>372c2f0dc3036210a7f1b813e401311c</sys_id>
+        <sys_mod_count>16</sys_mod_count>
+        <sys_name>Set Country from Employee Profile</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_372c2f0dc3036210a7f1b813e401311c</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-30 11:03:51</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=372c2f0dc3036210a7f1b813e401311c"/>
+</record_update>

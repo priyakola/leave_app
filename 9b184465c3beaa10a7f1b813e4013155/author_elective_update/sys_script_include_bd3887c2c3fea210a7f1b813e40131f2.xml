@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1800027_leve_sys.LeaveUtils</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>LeaveUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var LeaveUtils = Class.create();
+LeaveUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    // Your existing methods
+    getUserManager: function() {
+        try {
+            // Hardcode the manager ID for testing
+            var managerID = '5137153cc611227c000bbd1bd8cd2005';
+            gs.info('=== Script Include: Returning manager ID: ' + managerID);
+            return managerID;
+        } catch (ex) {
+            gs.error('Error in Script Include: ' + ex);
+            return '';
+        }
+    },
+    approveLeave: function() {
+    try {
+        var requestID = this.getParameter('sysparm_sys_id');
+        var requestGR = new GlideRecord('x_1800027_leve_sys_leave_request');
+        
+        if (requestGR.get(requestID)) {
+            gs.info('=== Approving leave request: ' + requestGR.number);
+            requestGR.setWorkflow(false); // Bypass Business Rules
+            requestGR.status = 'approved';
+            
+            if (requestGR.update()) {
+                gs.info('Successfully approved leave request: ' + requestGR.number);
+                return 'success';
+            } else {
+                var error = 'Failed to update record: ' + requestGR.getLastErrorMessage();
+                gs.error(error);
+                return error;
+            }
+        }
+        return 'Error: Could not find leave request';
+    } catch(ex) {
+        var error = 'Error in approveLeave: ' + ex.message;
+        gs.error(error);
+        return error;
+    }
+},
+    testBusinessRule: function() {
+        try {
+            var requestID = this.getParameter('sysparm_sys_id');
+            var requestGR = new GlideRecord('x_1800027_leve_sys_leave_request');
+
+            if (requestGR.get(requestID)) {
+                // Test the query
+                var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+                balanceGR.addQuery('employee', requestGR.requester);
+                balanceGR.addQuery('leave_type', requestGR.leave_type);
+                balanceGR.query();
+
+                if (balanceGR.next()) {
+                    return 'Found balance record with ' + balanceGR.remaining + ' days remaining';
+                } else {
+                    return 'No balance record found for this user/leave type';
+                }
+            }
+            return 'Error: Could not load request';
+        } catch (ex) {
+            return 'Error: ' + ex.message;
+        }
+    },
+    
+    type: 'LeaveUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 09:26:02</sys_created_on>
+        <sys_id>bd3887c2c3fea210a7f1b813e40131f2</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>LeaveUtils</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_include_bd3887c2c3fea210a7f1b813e40131f2</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:15:34</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_script_include_bd3887c2c3fea210a7f1b813e40131f2</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_1800027_leve_sys.LeaveUtils&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;true&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;LeaveUtils&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[var LeaveUtils = Class.create();
+LeaveUtils.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    // Your existing methods
+    getUserManager: function() {
+        try {
+            // Hardcode the manager ID for testing
+            var managerID = '5137153cc611227c000bbd1bd8cd2005';
+            gs.info('=== Script Include: Returning manager ID: ' + managerID);
+            return managerID;
+        } catch (ex) {
+            gs.error('Error in Script Include: ' + ex);
+            return '';
+        }
+    },
+    approveLeave: function() {
+    try {
+        var requestID = this.getParameter('sysparm_sys_id');
+        var requestGR = new GlideRecord('x_1800027_leve_sys_leave_request');
+        
+        if (requestGR.get(requestID)) {
+            gs.info('=== Approving leave request: ' + requestGR.number);
+            requestGR.setWorkflow(false); // Bypass Business Rules
+            requestGR.status = 'approved';
+            
+            if (requestGR.update()) {
+                gs.info('Successfully approved leave request: ' + requestGR.number);
+                return 'success';
+            } else {
+                var error = 'Failed to update record: ' + requestGR.getLastErrorMessage();
+                gs.error(error);
+                return error;
+            }
+        }
+        return 'Error: Could not find leave request';
+    } catch(ex) {
+        var error = 'Error in approveLeave: ' + ex.message;
+        gs.error(error);
+        return error;
+    }
+},
+    testBusinessRule: function() {
+        try {
+            var requestID = this.getParameter('sysparm_sys_id');
+            var requestGR = new GlideRecord('x_1800027_leve_sys_leave_request');
+
+            if (requestGR.get(requestID)) {
+                // Test the query
+                var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
+                balanceGR.addQuery('employee', requestGR.requester);
+                balanceGR.addQuery('leave_type', requestGR.leave_type);
+                balanceGR.query();
+
+                if (balanceGR.next()) {
+                    return 'Found balance record with ' + balanceGR.remaining + ' days remaining';
+                } else {
+                    return 'No balance record found for this user/leave type';
+                }
+            }
+            return 'Error: Could not load request';
+        } catch (ex) {
+            return 'Error: ' + ex.message;
+        }
+    },
+    
+    type: 'LeaveUtils'
+});]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-19 09:26:02&lt;/sys_created_on&gt;&lt;sys_id&gt;bd3887c2c3fea210a7f1b813e40131f2&lt;/sys_id&gt;&lt;sys_mod_count&gt;8&lt;/sys_mod_count&gt;&lt;sys_name&gt;LeaveUtils&lt;/sys_name&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_bd3887c2c3fea210a7f1b813e40131f2&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-19 13:15:34&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>1787657526</payload_hash>
+        <record_name>LeaveUtils</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 13:15:34</sys_created_on>
+        <sys_id>ebecbbcac3f2e210a7f1b813e4013187</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19822d35eed0000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:15:34</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>63ecbbcaebf2e2107b2ae38e604a4d87</update_guid>
+        <update_guid_history>63ecbbcaebf2e2107b2ae38e604a4d87:1787657526,1f685f0a6932e210a872540a107019c3:-1942926947,9618174a6332e210d0c461d2604ef0a1:1138124420,d17d8b8a5dfea21012f4e3c4c4af61d5:-911526237,7f2ccb4a7efea2100bddf34d6f3ad333:197481808,df1b83c68afea210bf09ca1808e30fc4:-1943882285,2c3a0f86bdfea2109372d42a69a0ceaf:1374354891,77498f467dfea2100c4c7c37f67d7a53:2077788020,4568c30645fea21040a50cb1824199d0:979532475</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 08:43:17</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>0096f99b2347422880006a8de46ff609</sys_id>
+        <sys_metadata>bd3887c2c3fea210a7f1b813e40131f2</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>LeaveUtils</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_script_include_bd3887c2c3fea210a7f1b813e40131f2</sys_update_name>
+        <sys_update_version display_value="sys_script_include_bd3887c2c3fea210a7f1b813e40131f2">ebecbbcac3f2e210a7f1b813e4013187</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 08:43:17</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

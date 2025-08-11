@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1800027_leve_sys.HolidayAjax</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>HolidayAjax</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var HolidayAjax = Class.create();
+HolidayAjax.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    getHolidaysInRange: function() {
+        var startDate = this.getParameter('sysparm_start_date');
+        var endDate = this.getParameter('sysparm_end_date');
+        var country = this.getParameter('sysparm_country');
+        
+        // If country is not provided, try to get it from the user
+        if (!country) {
+            var userId = this.getParameter('sysparm_user_id') || gs.getUserID();
+            country = this._getUserCountry(userId);
+        }
+
+        // Strip time component from dates (keep only YYYY-MM-DD)
+        if (startDate && startDate.indexOf(' ') > -1) {
+            startDate = startDate.split(' ')[0];
+        }
+        if (endDate && endDate.indexOf(' ') > -1) {
+            endDate = endDate.split(' ')[0];
+        }
+
+        var holidayMgr = new x_1800027_leve_sys.HolidayManager();
+        var holidays = holidayMgr.getHolidaysInRange(startDate, endDate, country);
+
+        return JSON.stringify(holidays);
+    },
+
+    getNonWorkingDays: function() {
+        var startDate = this.getParameter('sysparm_start_date');
+        var endDate = this.getParameter('sysparm_end_date');
+        var country = this.getParameter('sysparm_country');
+        
+        // If country is not provided, try to get it from the user
+        if (!country) {
+            var userId = this.getParameter('sysparm_user_id') || gs.getUserID();
+            country = this._getUserCountry(userId);
+        }
+
+        // Strip time component from dates (keep only YYYY-MM-DD)
+        if (startDate && startDate.indexOf(' ') > -1) {
+            startDate = startDate.split(' ')[0];
+        }
+        if (endDate && endDate.indexOf(' ') > -1) {
+            endDate = endDate.split(' ')[0];
+        }
+
+        var holidayMgr = new x_1800027_leve_sys.HolidayManager();
+        var nonWorkingDays = holidayMgr.getNonWorkingDays(startDate, endDate, country);
+
+        return JSON.stringify(nonWorkingDays);
+    },
+
+    calculateWorkingDays: function() {
+        var startDate = this.getParameter('sysparm_start_date');
+        var endDate = this.getParameter('sysparm_end_date');
+        var country = this.getParameter('sysparm_country');
+        
+        // If country is not provided, try to get it from the user
+        if (!country) {
+            var userId = this.getParameter('sysparm_user_id') || gs.getUserID();
+            country = this._getUserCountry(userId);
+        }
+
+        // Strip time component from dates (keep only YYYY-MM-DD)
+        if (startDate && startDate.indexOf(' ') > -1) {
+            startDate = startDate.split(' ')[0];
+        }
+        if (endDate && endDate.indexOf(' ') > -1) {
+            endDate = endDate.split(' ')[0];
+        }
+
+        var holidayMgr = new x_1800027_leve_sys.HolidayManager();
+        var workingDays = holidayMgr.calculateWorkingDays(startDate, endDate, country);
+
+        return workingDays;
+    },
+
+    // calculate duration
+    calculateDuration: function() {
+        var startDate = this.getParameter('sysparm_start_date');
+        var endDate = this.getParameter('sysparm_end_date');
+        var country = this.getParameter('sysparm_country');
+        var isHalfDay = this.getParameter('sysparm_half_day') === 'true';
+        
+        // If country is not provided, try to get it from the user
+        if (!country) {
+            var userId = this.getParameter('sysparm_user_id') || gs.getUserID();
+            country = this._getUserCountry(userId);
+        }
+
+        // Strip time component from dates (keep only YYYY-MM-DD)
+        if (startDate && startDate.indexOf(' ') > -1) {
+            startDate = startDate.split(' ')[0];
+        }
+        if (endDate && endDate.indexOf(' ') > -1) {
+            endDate = endDate.split(' ')[0];
+        }
+
+        var holidayMgr = new x_1800027_leve_sys.HolidayManager();
+        var workingDays = holidayMgr.calculateWorkingDays(startDate, endDate, country);
+
+        // Adjust for half day if needed
+        if (isHalfDay) {
+            workingDays = workingDays - 0.5;
+        }
+
+        return workingDays;
+    },
+
+    // Get user's country
+    getUserCountry: function() {
+        var userId = this.getParameter('sysparm_user_id') || gs.getUserID();
+        return this._getUserCountry(userId);
+    },
+    
+    // Get default country (India or any available)
+    getDefaultCountry: function() {
+        try {
+            // Try to get India as default
+            var countryGR = new GlideRecord('core_country');
+            countryGR.addQuery('name', 'India');
+            countryGR.query();
+            
+            if (countryGR.next()) {
+                return countryGR.sys_id.toString();
+            }
+            
+            // If India not found, get any country
+            countryGR = new GlideRecord('core_country');
+            countryGR.query();
+            if (countryGR.next()) {
+                return countryGR.sys_id.toString();
+            }
+            
+            return '';
+        } catch (e) {
+            gs.error("Error getting default country: " + e);
+            return '';
+        }
+    },
+
+    // Internal method to get user's country
+    _getUserCountry: function(userId) {
+        try {
+            if (!userId) {
+                return this.getDefaultCountry();
+            }
+            
+            var userGR = new GlideRecordSecure('sys_user');
+            if (userGR.get(userId)) {
+                // Try to determine country from location if available
+                if (!userGR.location.nil()) {
+                    var location = userGR.location.toString();
+                    var extractedCountry = this._extractCountryFromLocation(location);
+                    
+                    if (extractedCountry) {
+                        // Find country record
+                        var countryGR = new GlideRecord('core_country');
+                        countryGR.addQuery('name', extractedCountry);
+                        countryGR.query();
+                        
+                        if (countryGR.next()) {
+                            return countryGR.sys_id.toString();
+                        }
+                    }
+                }
+            }
+            
+            // Default to India if no country found
+            return this.getDefaultCountry();
+        } catch (e) {
+            gs.error("Error getting user country: " + e);
+            return this.getDefaultCountry();
+        }
+    },
+
+    // Helper function to extract country from location
+    _extractCountryFromLocation: function(location) {
+        if (!location) return null;
+        
+        // Common location patterns
+        if (location.indexOf('London') > -1) return 'United Kingdom';
+        if (location.indexOf('Paris') > -1) return 'France';
+        if (location.indexOf('Frankfurt') > -1) return 'Germany';
+        if (location.indexOf('Rome') > -1) return 'Italy';
+        if (location.indexOf('Brasilia') > -1) return 'Brazil';
+        if (location.indexOf('Shanghai') > -1) return 'China';
+        if (location.indexOf('Melbourne') > -1) return 'Australia';
+        if (location.indexOf('Cancun') > -1) return 'Mexico';
+        
+        // US locations
+        if (location.indexOf(',FL') > -1 || location.indexOf('Florida') > -1) return 'United States';
+        if (location.indexOf(',GA') > -1 || location.indexOf('Georgia') > -1) return 'United States';
+        if (location.indexOf(',CA') > -1 || location.indexOf('California') > -1) return 'United States';
+        if (location.indexOf('San Diego') > -1) return 'United States';
+        if (location.indexOf('Atlanta') > -1) return 'United States';
+        if (location.indexOf('Miami') > -1) return 'United States';
+        
+        return 'India'; // Default to India
+    },
+    
+    type: 'HolidayAjax'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 08:49:57</sys_created_on>
+        <sys_id>6b1355bac3b2a610a7f1b813e4013160</sys_id>
+        <sys_mod_count>5</sys_mod_count>
+        <sys_name>HolidayAjax</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_include_6b1355bac3b2a610a7f1b813e4013160</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 10:29:29</sys_updated_on>
+    </sys_script_include>
+</record_update>

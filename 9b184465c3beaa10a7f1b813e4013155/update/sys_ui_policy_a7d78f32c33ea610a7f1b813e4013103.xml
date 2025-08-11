@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_policy">
+    <sys_ui_policy action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <conditions table="x_1800027_leve_sys_leave_request">is_half_day=true^EQ<item endquery="false" field="is_half_day" goto="false" newquery="false" operator="=" or="false" value="true"/>
+            <item endquery="true" field="" goto="false" newquery="false" operator="=" or="false" value=""/>
+        </conditions>
+        <description/>
+        <global>true</global>
+        <inherit>false</inherit>
+        <isolate_script>true</isolate_script>
+        <model_id/>
+        <model_table/>
+        <on_load>true</on_load>
+        <order>105</order>
+        <reverse_if_false>true</reverse_if_false>
+        <run_scripts>true</run_scripts>
+        <script_false><![CDATA[function onCondition() {
+
+}]]></script_false>
+        <script_true><![CDATA[function onCondition() {
+    // When half-day is checked
+    var startDate = g_form.getValue('start_date');
+    if (startDate) {
+        g_form.setValue('end_date', startDate);
+    }
+}
+
+function onCancelCondition() {
+    // When half-day is unchecked
+    g_form.setReadOnly('end_date', false);
+}]]></script_true>
+        <set_values/>
+        <short_description>Control End Date for Half Day</short_description>
+        <sys_class_name>sys_ui_policy</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 17:21:21</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>a7d78f32c33ea610a7f1b813e4013103</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Control End Date for Half Day</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_ui_policy_a7d78f32c33ea610a7f1b813e4013103</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 17:21:21</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_ui_policy>
+</record_update>

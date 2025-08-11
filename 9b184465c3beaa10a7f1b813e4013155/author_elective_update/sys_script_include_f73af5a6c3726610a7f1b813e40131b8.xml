@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1800027_leve_sys.LeaveNotificationUtils</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>LeaveNotificationUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var LeaveNotificationUtils = Class.create();
+LeaveNotificationUtils.prototype = {
+    initialize: function() {},
+    
+    /**
+     * Send notification to manager when leave is requested
+     * @param {string} leaveRequestId - sys_id of the leave request
+     */
+    notifyManager: function(leaveRequestId) {
+        try {
+            var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+            if (gr.get(leaveRequestId)) {
+                var notification = new GlideRecord('sys_trigger');
+                notification.initialize();
+                notification.name = 'New Leave Request: ' + gr.number;
+                notification.notification_type = 'notification';
+                notification.recipient = gr.approver; // Send to manager
+                notification.short_description = 'New leave request from ' + gr.requested_by.getDisplayValue();
+                notification.description = 'Leave Type: ' + gr.leave_type.getDisplayValue() + 
+                                        '\nStart Date: ' + gr.start_date.getDisplayValue() +
+                                        '\nEnd Date: ' + gr.end_date.getDisplayValue() +
+                                        '\nDuration: ' + gr.duration + ' days' +
+                                        '\n\nClick to review: ' + this._getRecordLink(gr.sys_id);
+                notification.topic = 'leave_request';
+                notification.insert();
+                return true;
+            }
+            return false;
+        } catch(ex) {
+            gs.error('Error in notifyManager: ' + ex);
+            return false;
+        }
+    },
+    
+    /**
+     * Send notification to requester when leave is approved/rejected
+     * @param {string} leaveRequestId - sys_id of the leave request
+     * @param {string} status - New status (approved/rejected)
+     * @param {string} comments - Optional comments
+     */
+    notifyRequester: function(leaveRequestId, status, comments) {
+        try {
+            var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+            if (gr.get(leaveRequestId)) {
+                var notification = new GlideRecord('sys_trigger');
+                notification.initialize();
+                notification.name = 'Leave Request ' + status.charAt(0).toUpperCase() + status.slice(1) + ': ' + gr.number;
+                notification.notification_type = 'notification';
+                notification.recipient = gr.requested_by; // Send to requester
+                notification.short_description = 'Your leave request has been ' + status;
+                notification.description = 'Status: ' + status.toUpperCase() +
+                                        '\nLeave Type: ' + gr.leave_type.getDisplayValue() +
+                                        '\nStart Date: ' + gr.start_date.getDisplayValue() +
+                                        '\nEnd Date: ' + gr.end_date.getDisplayValue() +
+                                        (comments ? '\n\nComments: ' + comments : '') +
+                                        '\n\nClick to view: ' + this._getRecordLink(gr.sys_id);
+                notification.topic = 'leave_status_update';
+                notification.insert();
+                return true;
+            }
+            return false;
+        } catch(ex) {
+            gs.error('Error in notifyRequester: ' + ex);
+            return false;
+        }
+    },
+    
+    /**
+     * Generate a clickable record link
+     * @private
+     */
+    _getRecordLink: function(sysId) {
+        return gs.getProperty('glide.servlet.uri') + 
+               'x_1800027_leve_sys_leave_request.do?sys_id=' + sysId;
+    },
+    
+    type: 'LeaveNotificationUtils'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-20 17:02:15</sys_created_on>
+        <sys_id>f73af5a6c3726610a7f1b813e40131b8</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>LeaveNotificationUtils</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_include_f73af5a6c3726610a7f1b813e40131b8</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-20 17:02:15</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_script_include_f73af5a6c3726610a7f1b813e40131b8</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_1800027_leve_sys.LeaveNotificationUtils&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;true&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;LeaveNotificationUtils&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[var LeaveNotificationUtils = Class.create();
+LeaveNotificationUtils.prototype = {
+    initialize: function() {},
+    
+    /**
+     * Send notification to manager when leave is requested
+     * @param {string} leaveRequestId - sys_id of the leave request
+     */
+    notifyManager: function(leaveRequestId) {
+        try {
+            var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+            if (gr.get(leaveRequestId)) {
+                var notification = new GlideRecord('sys_trigger');
+                notification.initialize();
+                notification.name = 'New Leave Request: ' + gr.number;
+                notification.notification_type = 'notification';
+                notification.recipient = gr.approver; // Send to manager
+                notification.short_description = 'New leave request from ' + gr.requested_by.getDisplayValue();
+                notification.description = 'Leave Type: ' + gr.leave_type.getDisplayValue() + 
+                                        '\nStart Date: ' + gr.start_date.getDisplayValue() +
+                                        '\nEnd Date: ' + gr.end_date.getDisplayValue() +
+                                        '\nDuration: ' + gr.duration + ' days' +
+                                        '\n\nClick to review: ' + this._getRecordLink(gr.sys_id);
+                notification.topic = 'leave_request';
+                notification.insert();
+                return true;
+            }
+            return false;
+        } catch(ex) {
+            gs.error('Error in notifyManager: ' + ex);
+            return false;
+        }
+    },
+    
+    /**
+     * Send notification to requester when leave is approved/rejected
+     * @param {string} leaveRequestId - sys_id of the leave request
+     * @param {string} status - New status (approved/rejected)
+     * @param {string} comments - Optional comments
+     */
+    notifyRequester: function(leaveRequestId, status, comments) {
+        try {
+            var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+            if (gr.get(leaveRequestId)) {
+                var notification = new GlideRecord('sys_trigger');
+                notification.initialize();
+                notification.name = 'Leave Request ' + status.charAt(0).toUpperCase() + status.slice(1) + ': ' + gr.number;
+                notification.notification_type = 'notification';
+                notification.recipient = gr.requested_by; // Send to requester
+                notification.short_description = 'Your leave request has been ' + status;
+                notification.description = 'Status: ' + status.toUpperCase() +
+                                        '\nLeave Type: ' + gr.leave_type.getDisplayValue() +
+                                        '\nStart Date: ' + gr.start_date.getDisplayValue() +
+                                        '\nEnd Date: ' + gr.end_date.getDisplayValue() +
+                                        (comments ? '\n\nComments: ' + comments : '') +
+                                        '\n\nClick to view: ' + this._getRecordLink(gr.sys_id);
+                notification.topic = 'leave_status_update';
+                notification.insert();
+                return true;
+            }
+            return false;
+        } catch(ex) {
+            gs.error('Error in notifyRequester: ' + ex);
+            return false;
+        }
+    },
+    
+    /**
+     * Generate a clickable record link
+     * @private
+     */
+    _getRecordLink: function(sysId) {
+        return gs.getProperty('glide.servlet.uri') + 
+               'x_1800027_leve_sys_leave_request.do?sys_id=' + sysId;
+    },
+    
+    type: 'LeaveNotificationUtils'
+};]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-20 17:02:15&lt;/sys_created_on&gt;&lt;sys_id&gt;f73af5a6c3726610a7f1b813e40131b8&lt;/sys_id&gt;&lt;sys_mod_count&gt;0&lt;/sys_mod_count&gt;&lt;sys_name&gt;LeaveNotificationUtils&lt;/sys_name&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_f73af5a6c3726610a7f1b813e40131b8&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-20 17:02:15&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-848586857</payload_hash>
+        <record_name>LeaveNotificationUtils</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-20 17:02:16</sys_created_on>
+        <sys_id>826af9a6c3726610a7f1b813e4013109</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19828c948b00000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-20 17:02:16</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>866af9a6b6726610d21c0b31e3813e08</update_guid>
+        <update_guid_history>866af9a6b6726610d21c0b31e3813e08:-848586857</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 08:43:18</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>9b3e98e629434834b8641b2dfe1a1cf9</sys_id>
+        <sys_metadata>f73af5a6c3726610a7f1b813e40131b8</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>LeaveNotificationUtils</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_script_include_f73af5a6c3726610a7f1b813e40131b8</sys_update_name>
+        <sys_update_version display_value="sys_script_include_f73af5a6c3726610a7f1b813e40131b8">826af9a6c3726610a7f1b813e4013109</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 08:43:18</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

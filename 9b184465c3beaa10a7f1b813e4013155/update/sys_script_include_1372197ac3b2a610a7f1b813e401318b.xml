@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1800027_leve_sys.HolidayManager</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>HolidayManager</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var HolidayManager = Class.create();
+HolidayManager.prototype = {
+    initialize: function() {},
+
+    /**
+     * Get holidays within a date range for a specific country
+     * @param {string} startDate - Start date in yyyy-MM-dd format
+     * @param {string} endDate - End date in yyyy-MM-dd format
+     * @param {string} country - Country code (e.g., 'USA', 'India')
+     * @return {Array} Array of holiday objects
+     */
+    getHolidaysInRange: function(startDate, endDate, country) {
+        var holidays = [];
+
+        if (!startDate || !endDate || !country) {
+            gs.debug('Missing required parameters in getHolidaysInRange');
+            return holidays;
+        }
+
+        // Changed GlideRecord to GlideRecordSecure
+        var holidayGR = new GlideRecordSecure('x_1800027_leve_sys_holiday');
+        holidayGR.addQuery('country', country);
+
+        // Convert dates to GlideDateTime for comparison
+        var startGDT = new GlideDateTime(startDate);
+        var endGDT = new GlideDateTime(endDate);
+
+        // Query holidays that fall within the date range
+        holidayGR.addQuery('holiday_date', '>=', startGDT.getDate());
+        holidayGR.addQuery('holiday_date', '<=', endGDT.getDate());
+
+        holidayGR.orderBy('holiday_date');
+        holidayGR.query();
+
+        while (holidayGR.next()) {
+            holidays.push({
+                name: holidayGR.holiday_name.toString(),
+                date: holidayGR.holiday_date.toString(),
+                country: holidayGR.country.toString(),
+                isRecurring: holidayGR.is_recurring.toString() === 'true'
+            });
+        }
+
+        return holidays;
+    },
+
+    /**
+     * Get weekend days for a country from policy
+     * @param {string} country - Country code
+     * @return {Array} Array of day numbers (0=Sunday, 6=Saturday)
+     */
+    getWeekendDays: function(country) {
+        // Default weekend days (Saturday and Sunday)
+        var weekendDays = [0, 6];
+
+        // Changed GlideRecord to GlideRecordSecure
+        var policyGR = new GlideRecordSecure('x_1800027_leve_sys_country_policy');
+        policyGR.addQuery('country', country);
+        policyGR.query();
+
+        if (policyGR.next() && policyGR.weekend_days) {
+            try {
+                // If stored as JSON string
+                if (typeof policyGR.weekend_days === 'string') {
+                    weekendDays = JSON.parse(policyGR.weekend_days);
+                }
+                // If stored as comma-separated values
+                else if (policyGR.weekend_days.indexOf(',') > -1) {
+                    weekendDays = policyGR.weekend_days.split(',').map(function(day) {
+                        return parseInt(day.trim(), 10);
+                    });
+                }
+            } catch (e) {
+                gs.error('Error parsing weekend days: ' + e);
+            }
+        }
+
+        return weekendDays;
+    },
+
+    /**
+     * Check if a date is a weekend day
+     * @param {GlideDateTime} dateTime - Date to check
+     * @param {Array} weekendDays - Array of weekend day numbers
+     * @return {boolean} True if weekend, false otherwise
+     */
+    isWeekend: function(dateTime, weekendDays) {
+        var dayOfWeek = dateTime.getDayOfWeekUTC();
+
+        // Convert Sunday from 7 to 0 if using JavaScript-style array [0,6]
+        var jsStyleDay = (dayOfWeek === 7) ? 0 : dayOfWeek;
+
+        // Check both the ServiceNow day number and JavaScript-style day number
+        var isWeekendDay = weekendDays.indexOf(dayOfWeek) !== -1 || weekendDays.indexOf(jsStyleDay) !== -1;
+
+        gs.info('Date: ' + dateTime.getDate() +
+            ', Day of week: ' + dayOfWeek +
+            ', JS-style day: ' + jsStyleDay +
+            ', Weekend days: ' + JSON.stringify(weekendDays) +
+            ', Is weekend: ' + isWeekendDay);
+
+        return isWeekendDay;
+    },
+
+    /**
+     * Check if a date is a holiday
+     * @param {GlideDateTime} dateTime - Date to check
+     * @param {string} country - Country code
+     * @return {boolean} True if holiday, false otherwise
+     */
+    isHoliday: function(dateTime, country) {
+        var dateStr = dateTime.getDate();
+
+        // Changed GlideRecord to GlideRecordSecure
+        var holidayGR = new GlideRecordSecure('x_1800027_leve_sys_holiday');
+        holidayGR.addQuery('country', country);
+        holidayGR.addQuery('holiday_date', dateStr);
+        holidayGR.query();
+
+        return holidayGR.hasNext();
+    },
+
+    /**
+     * Calculate working days between two dates, excluding holidays and weekends
+     * @param {string} startDate - Start date in yyyy-MM-dd format
+     * @param {string} endDate - End date in yyyy-MM-dd format
+     * @param {string} country - Country code (e.g., 'USA', 'India')
+     * @return {number} Number of working days
+     */
+    calculateWorkingDays: function(startDate, endDate, country) {
+        if (!startDate || !endDate || !country) {
+            return 0;
+        }
+
+        // Get weekend days for the country
+        var weekendDays = this.getWeekendDays(country);
+
+        // Convert dates to GlideDateTime for manipulation
+        var startGDT = new GlideDateTime(startDate);
+        var endGDT = new GlideDateTime(endDate);
+
+        // Ensure start date is at beginning of day
+        startGDT.setDisplayValue(startGDT.getDate() + ' 00:00:00');
+
+        // Ensure end date is at end of day
+        endGDT.setDisplayValue(endGDT.getDate() + ' 23:59:59');
+
+        var workingDays = 0;
+        var currentGDT = new GlideDateTime(startGDT.getValue());
+
+        // Loop through each day in the range
+        while (currentGDT.compareTo(endGDT) <= 0) {
+            // Check if current day is a working day (not weekend and not holiday)
+            if (!this.isWeekend(currentGDT, weekendDays) && !this.isHoliday(currentGDT, country)) {
+                workingDays++;
+            }
+
+            // Move to next day
+            currentGDT.addDaysUTC(1);
+        }
+
+        return workingDays;
+    },
+
+    /**
+     * Get a list of all non-working days (holidays and weekends) in a date range
+     * @param {string} startDate - Start date
+     * @param {string} endDate - End date
+     * @param {string} country - Country code
+     * @return {Array} Array of non-working day objects with date and reason
+     */
+    getNonWorkingDays: function(startDate, endDate, country) {
+        var nonWorkingDays = [];
+        var weekendDays = this.getWeekendDays(country);
+
+        // Get holidays in range
+        var holidays = this.getHolidaysInRange(startDate, endDate, country);
+
+        // Add holidays to non-working days
+        for (var i = 0; i < holidays.length; i++) {
+            nonWorkingDays.push({
+                date: holidays[i].date,
+                reason: 'Holiday: ' + holidays[i].name,
+                type: 'holiday'
+            });
+        }
+
+        // Convert dates to GlideDateTime for manipulation
+        var startGDT = new GlideDateTime(startDate);
+        var endGDT = new GlideDateTime(endDate);
+
+        var currentGDT = new GlideDateTime(startGDT.getValue());
+
+        // Loop through each day and add weekends
+        while (currentGDT.compareTo(endGDT) <= 0) {
+            if (this.isWeekend(currentGDT, weekendDays)) {
+                var dayOfWeek = currentGDT.getDayOfWeekLocalTime();
+                var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+                nonWorkingDays.push({
+                    date: currentGDT.getDate(),
+                    reason: 'Weekend: ' + dayNames[dayOfWeek],
+                    type: 'weekend'
+                });
+            }
+
+            // Move to next day
+            currentGDT.addDaysUTC(1);
+        }
+
+        return nonWorkingDays;
+    },
+
+    type: 'HolidayManager'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 08:47:46</sys_created_on>
+        <sys_id>1372197ac3b2a610a7f1b813e401318b</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>HolidayManager</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_include_1372197ac3b2a610a7f1b813e401318b</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-23 09:12:08</sys_updated_on>
+    </sys_script_include>
+</record_update>

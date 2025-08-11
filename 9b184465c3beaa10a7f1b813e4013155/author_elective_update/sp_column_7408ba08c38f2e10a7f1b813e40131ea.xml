@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_column">
+    <sp_column action="DELETE">
+        <class_name/>
+        <order>1</order>
+        <semantic_tag/>
+        <size>12</size>
+        <size_lg/>
+        <size_sm/>
+        <size_xs/>
+        <sp_row display_value="1">fc08ba08c38f2e10a7f1b813e40131e7</sp_row>
+        <sys_class_name>sp_column</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 13:22:19</sys_created_on>
+        <sys_id>7408ba08c38f2e10a7f1b813e40131ea</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>1</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sp_column_7408ba08c38f2e10a7f1b813e40131ea</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 13:22:19</sys_updated_on>
+    </sp_column>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sp_column_7408ba08c38f2e10a7f1b813e40131ea</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_column"><sp_column action="INSERT_OR_UPDATE"><class_name/><order>1</order><semantic_tag/><size>12</size><size_lg/><size_sm/><size_xs/><sp_row display_value="1">fc08ba08c38f2e10a7f1b813e40131e7</sp_row><sys_class_name>sp_column</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-07-25 13:22:19</sys_created_on><sys_id>7408ba08c38f2e10a7f1b813e40131ea</sys_id><sys_mod_count>0</sys_mod_count><sys_name>1</sys_name><sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package><sys_policy/><sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope><sys_update_name>sp_column_7408ba08c38f2e10a7f1b813e40131ea</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-07-25 13:22:19</sys_updated_on></sp_column></record_update>]]></payload>
+        <payload_hash>391642111</payload_hash>
+        <record_name>1</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 13:22:19</sys_created_on>
+        <sys_id>fc08fa08c38f2e10a7f1b813e401311d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19841bfb3d80000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 13:22:19</sys_updated_on>
+        <type>Column</type>
+        <update_guid>f408ba08ed8f2e10a5b96eff298171eb</update_guid>
+        <update_guid_history>f408ba08ed8f2e10a5b96eff298171eb:391642111</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete display_value="1">e118b608c38f2e10a7f1b813e401317f</sys_audit_delete>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-25 13:22:38</sys_created_on>
+        <sys_db_object display_value="" name="sp_column">sp_column</sys_db_object>
+        <sys_id>463389bdeb5246999a1e02247bb8da39</sys_id>
+        <sys_metadata>7408ba08c38f2e10a7f1b813e40131ea</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>1</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sp_column_7408ba08c38f2e10a7f1b813e40131ea</sys_update_name>
+        <sys_update_version display_value="sp_column_7408ba08c38f2e10a7f1b813e40131ea">fc08fa08c38f2e10a7f1b813e401311d</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-25 13:22:38</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

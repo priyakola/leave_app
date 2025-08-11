@@ -2,7 +2,9 @@
     <element db_object_id="018dd865c332ea10a7f1b813e40131de" label="Leave Request" max_length="40" name="x_1800027_leve_sys_leave_request" type="collection">
         <element attributes="edge_encryption_enabled=true" label="Updated on" max_length="40" name="updated_on" type="string"/>
         <element attributes="edge_encryption_enabled=true" label="Approval comments" mandatory="true" max_length="4000" name="approval_comments" type="string"/>
-        <element attributes="encode_utf8=false" label="Country" mandatory="true" max_length="32" name="country" reference="core_country" type="reference"/>
+        <element attributes="edge_encryption_enabled=true,encode_utf8=false" choice="3" display="true" label="Country" mandatory="true" max_length="32" name="country" reference="core_country" type="reference">
+            <choice/>
+        </element>
         <element label="Is half day" mandatory="true" max_length="40" name="is_half_day" type="boolean"/>
         <element attributes="edge_encryption_enabled=true" label="End date" mandatory="true" max_length="40" name="end_date" type="glide_date_time"/>
         <element attributes="edge_encryption_enabled=true" label="Start date" mandatory="true" max_length="40" name="start_date" type="glide_date_time"/>
@@ -12,16 +14,16 @@
         <element attributes="edge_encryption_enabled=true" choice="3" default="requested" label="Status" mandatory="true" max_length="40" name="status" type="choice">
             <choice>
                 <element inactive_on_update="false" label="requested" sequence="1" value="requested"/>
-                <element inactive_on_update="false" label="declined" sequence="2" value="declined"/>
                 <element inactive_on_update="false" label="approved" sequence="0" value="approved"/>
+                <element inactive_on_update="false" label="declined" sequence="2" value="declined"/>
             </choice>
         </element>
         <element attributes="edge_encryption_enabled=true" label="Duration" mandatory="true" max_length="15" name="duration" read_only="true" type="decimal"/>
         <element attributes="edge_encryption_enabled=true" label="Created on" max_length="40" name="created_on" type="string"/>
         <element attributes="edge_encryption_enabled=true" choice="3" default="javascript:ChangeModel.getDefaultTypeValue()" dynamic_default_value="d1442bd4c3c02010b1343f52c1d3aea5" label="Half day period" mandatory="true" max_length="40" name="half_day_period" type="choice" use_dependent_field="true" use_dynamic_default="true">
             <choice>
-                <element inactive_on_update="false" label="second half" sequence="1" value="second half"/>
                 <element inactive_on_update="false" label="first half" sequence="0" value="first_half"/>
+                <element inactive_on_update="false" label="second half" sequence="1" value="second half"/>
             </choice>
         </element>
         <element attributes="encode_utf8=false" label="Requested by" mandatory="true" max_length="32" name="requested_by" reference="sys_user" type="reference"/>

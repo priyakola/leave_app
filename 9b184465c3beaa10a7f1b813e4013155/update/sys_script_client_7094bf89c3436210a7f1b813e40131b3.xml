@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>false</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Country field visibility</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+    // Only run for leave_user role
+    if (g_user.hasRole('x_1800027_leve_sys.leave_user')) {
+        try {
+            // Check if country field exists
+            var countryField = g_form.getElement('country');
+            
+            if (!countryField) {
+                // Get employee's country from their profile
+                var ga = new GlideAjax('x_1800027_leve_sys.UserProfileUtil');
+                ga.addParam('sysparm_name', 'getUserCountry');
+                ga.addParam('sysparm_user_id', g_form.getReference('employee').sys_id);
+                
+                ga.getXML(function(response) {
+                    var countryValue = response.responseXML.documentElement.getAttribute('answer');
+                    
+                    // Add country as a hidden field and set its value
+                    g_form.addInfoMessage("Country set to: " + countryValue);
+                    
+                    // Store country value in a hidden variable
+                    g_scratchpad.country = countryValue;
+                    
+                    // Add a custom field to display country
+                    var labelElement = document.createElement('div');
+                    labelElement.innerHTML = '<div class="form-group"><label class="col-sm-4 control-label">Country</label>' +
+                                            '<div class="col-sm-8"><p class="form-control-static">' + countryValue + '</p></div></div>';
+                    
+                    // Find a good place to insert it
+                    var sections = document.getElementsByClassName('section-content');
+                    if (sections && sections.length > 0) {
+                        sections[0].appendChild(labelElement);
+                    }
+                });
+            }
+        } catch (e) {
+            console.error("Error adding country field: " + e);
+        }
+    }
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-28 20:21:18</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>7094bf89c3436210a7f1b813e40131b3</sys_id>
+        <sys_mod_count>4</sys_mod_count>
+        <sys_name>Country field visibility</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_client_7094bf89c3436210a7f1b813e40131b3</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 09:22:28</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <type>onLoad</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

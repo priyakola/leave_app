@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update>
+    <sys_ui_form_sections form_id="c005a995c38b6210a7f1b813e401315e" sys_domain="global" table="x_1800027_leve_sys_leave_request" version="3">
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>0</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-07-29 04:32:02</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>cc05a995c38b6210a7f1b813e4013161</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_1800027_leve_sys_leave_request" name="x_1800027_leve_sys_leave_request" sys_domain="global" view="c8056995c38b6210a7f1b813e40131fe">c005a995c38b6210a7f1b813e401315e</sys_ui_form>
+            <sys_ui_section caption="Leave Details" display_value="Leave Details" name="x_1800027_leve_sys_leave_request" sys_domain="global" view="c8056995c38b6210a7f1b813e40131fe">4405a995c38b6210a7f1b813e401315b</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-07-29 04:32:02</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form_section action="INSERT_OR_UPDATE">
+            <position>1</position>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-07-29 04:32:02</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>4c05a995c38b6210a7f1b813e4013162</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_overrides/>
+            <sys_ui_form display_value="x_1800027_leve_sys_leave_request" name="x_1800027_leve_sys_leave_request" sys_domain="global" view="c8056995c38b6210a7f1b813e40131fe">c005a995c38b6210a7f1b813e401315e</sys_ui_form>
+            <sys_ui_section caption="Reason" display_value="Reason" name="x_1800027_leve_sys_leave_request" sys_domain="global" view="c8056995c38b6210a7f1b813e40131fe">c405a995c38b6210a7f1b813e401315d</sys_ui_section>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-07-29 04:32:02</sys_updated_on>
+        </sys_ui_form_section>
+        <sys_ui_form action="INSERT_OR_UPDATE">
+            <name>x_1800027_leve_sys_leave_request</name>
+            <roles/>
+            <sys_class_name>sys_ui_form</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2025-07-29 04:32:02</sys_created_on>
+            <sys_domain>global</sys_domain>
+            <sys_domain_path>/</sys_domain_path>
+            <sys_id>c005a995c38b6210a7f1b813e401315e</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>x_1800027_leve_sys_leave_request</sys_name>
+            <sys_overrides/>
+            <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+            <sys_policy/>
+            <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+            <sys_update_name>sys_ui_form_sections_c005a995c38b6210a7f1b813e401315e</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2025-07-29 04:32:02</sys_updated_on>
+            <sys_user/>
+            <view display_value="User view " name="User_view_">c8056995c38b6210a7f1b813e40131fe</view>
+            <view_name/>
+        </sys_ui_form>
+    </sys_ui_form_sections>
+</record_update>

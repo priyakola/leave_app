@@ -19,7 +19,7 @@
         <is_rest>false</is_rest>
         <message/>
         <name>Enforce Leave balance</name>
-        <order>51</order>
+        <order>30</order>
         <priority>100</priority>
         <rest_method/>
         <rest_method_text/>
@@ -27,61 +27,108 @@
         <rest_service_text/>
         <rest_variables/>
         <role_conditions/>
-        <script><![CDATA[(function executeRule(current, previous) {
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/ ) {
     try {
-        gs.info('=== Enforce leave balance - Complete ===');
-        
-        // Basic validation
-        if (!current.requested_by || !current.leave_type) {
-            gs.addErrorMessage('Required fields are missing');
+        // Only run on insert or when dates/leave type change
+        if (!current.isNewRecord() &&
+            !current.start_date.changes() &&
+            !current.end_date.changes() &&
+            !current.leave_type.changes()) {
+            return;
+        }
+
+        gs.info("[Enforce Leave] Starting validation for record: " + (current.number || "new record"));
+
+        // Check for overlapping leave requests
+        var hasOverlap = checkForOverlappingRequests(current);
+        if (hasOverlap) {
+            gs.addErrorMessage('This leave request overlaps with your existing request. Please choose different dates.');
             current.setAbortAction(true);
             return;
         }
-        
-        // Get year as string
-        var yearDate = current.start_date ? 
-            new GlideDateTime(current.start_date) :
-            new GlideDateTime();
-        
-        var year = yearDate.getYearLocalTime().toString();
-        
-        // Find matching balance record
-        var balanceGR = new GlideRecord('x_1800027_leve_sys_leave_balance');
-        balanceGR.addQuery('employee', current.requested_by);
-        balanceGR.addQuery('leave_type', current.leave_type);
+
+        // Continue with leave balance validation
+        validateLeaveBalance(current);
+
+    } catch (e) {
+        gs.error("[Enforce Leave] Error: " + e);
+    }
+
+    // Function to check for overlapping leave requests
+    function checkForOverlappingRequests(leaveRequest) {
+        // Skip if no dates
+        if (leaveRequest.start_date.nil() || leaveRequest.end_date.nil()) {
+            return false;
+        }
+
+        var overlapGR = new GlideRecordSecure('x_1800027_leve_sys_leave_request');
+
+        // Don't compare with self (for updates)
+        if (!leaveRequest.isNewRecord()) {
+            overlapGR.addQuery('sys_id', '!=', leaveRequest.sys_id);
+        }
+
+        // Only check active requests (not cancelled or rejected)
+        overlapGR.addQuery('status', 'NOT IN', 'cancelled,rejected');
+
+        // Only check the current user's requests
+        overlapGR.addQuery('requested_by', leaveRequest.requested_by);
+
+        // Check date overlap - ignore time component
+        var startDateStr = new GlideDateTime(leaveRequest.start_date).getDate();
+        var endDateStr = new GlideDateTime(leaveRequest.end_date).getDate();
+
+        overlapGR.addQuery('end_date', '>=', startDateStr);
+        overlapGR.addQuery('start_date', '<=', endDateStr);
+
+        overlapGR.query();
+
+        if (overlapGR.next()) {
+            gs.info("[Enforce Leave] Found overlapping request: " + overlapGR.number);
+            return true;
+        }
+
+        return false;
+    }
+
+    // Function to validate leave balance
+    function validateLeaveBalance(leaveRequest) {
+        // Skip if no leave type or dates
+        if (leaveRequest.leave_type.nil() ||
+            leaveRequest.start_date.nil() ||
+            leaveRequest.end_date.nil()) {
+            return;
+        }
+
+        // Get leave balance
+        var balanceGR = new GlideRecordSecure('x_1800027_leve_sys_leave_balance');
+        balanceGR.addQuery('employee', leaveRequest.requested_by);
+        balanceGR.addQuery('leave_type', leaveRequest.leave_type);
+
+        // Get year from start date
+        var startDate = new GlideDateTime(leaveRequest.start_date);
+        var year = startDate.getYearLocalTime();
+
         balanceGR.addQuery('year', year);
         balanceGR.query();
-        
-        if (!balanceGR.next()) {
-            // No balance record found
-            var leaveTypeName = current.leave_type.getDisplayValue();
-            var msg = 'No leave balance record found for ' + leaveTypeName + ' in ' + year;
-            gs.info('VALIDATION FAILED: ' + msg);
-            gs.addErrorMessage(msg);
-            current.setAbortAction(true);
-            return;
-        }
-        
-        // Check available balance
-        var availableBalance = parseFloat(balanceGR.available_balance) || 0;
-        var requested = parseFloat(current.duration) || 0;
 
-        if (requested > availableBalance) {
-            var msg = 'Insufficient leave balance. Available: ' +
-                availableBalance.toFixed(2) + ' days, Requested: ' + 
-                requested.toFixed(2) + ' days';
-            gs.info('VALIDATION FAILED: ' + msg);
-            gs.addErrorMessage(msg);
-            current.setAbortAction(true);
-            return;
+        if (!balanceGR.next()) {
+            gs.addErrorMessage('No leave balance record found for ' +
+                leaveRequest.leave_type.getDisplayValue() +
+                ' in ' + year + '. Request cannot be submitted.');
+            leaveRequest.setAbortAction(true);
+        } else {
+            // Check if balance is sufficient
+            var availableBalance = parseFloat(balanceGR.available_balance);
+            var totalRequested = parseFloat(leaveRequest.duration);
+
+            if (totalRequested > availableBalance) {
+                gs.addErrorMessage('Insufficient leave balance. Available: ' +
+                    availableBalance + ', Requested: ' +
+                    totalRequested + '. Request cannot be submitted.');
+                leaveRequest.setAbortAction(true);
+            }
         }
-        
-        gs.info('Validation passed - sufficient balance available');
-        
-    } catch(ex) {
-        gs.error('Error in validation: ' + ex);
-        gs.addErrorMessage('Error occurred: ' + ex.message);
-        current.setAbortAction(true);
     }
 })(current, previous);]]></script>
         <sys_class_name>sys_script</sys_class_name>
@@ -90,7 +137,7 @@
         <sys_domain>global</sys_domain>
         <sys_domain_path>/</sys_domain_path>
         <sys_id>e04c86eec3b26610a7f1b813e40131c3</sys_id>
-        <sys_mod_count>16</sys_mod_count>
+        <sys_mod_count>40</sys_mod_count>
         <sys_name>Enforce Leave balance</sys_name>
         <sys_overrides/>
         <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
@@ -98,7 +145,7 @@
         <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
         <sys_update_name>sys_script_e04c86eec3b26610a7f1b813e40131c3</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2025-07-20 19:51:30</sys_updated_on>
+        <sys_updated_on>2025-07-30 10:21:51</sys_updated_on>
         <template/>
         <when>before</when>
     </sys_script>

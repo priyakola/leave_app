@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field/>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>Validate Country and approver</name>
+        <order/>
+        <script><![CDATA[function onLoad() {
+    try {
+        // Check if this is a new record
+        var isNewRecord = g_form.isNewRecord();
+        
+        if (isNewRecord) {
+            // For new records, show appropriate message
+            g_form.addInfoMessage("Leave request created. Country and approver will be auto-populated based on your profile.");
+            
+            // Add an onChange event for the requested_by field
+            g_form.onChange("requested_by", function() {
+                // First validate fields
+                validateFields();
+                
+                // Then calculate duration after a short delay to allow country to be set
+                setTimeout(displayDuration, 1000);
+            });
+        } else {
+            // For existing records, validate immediately
+            validateFields();
+            displayDuration();
+        }
+        
+        // Add event listeners for fields that affect duration
+        g_form.onChange("start_date", function() {
+            // Ensure country is set before calculating duration
+            ensureCountryAndApprover(function() {
+                displayDuration();
+            });
+        });
+        
+        g_form.onChange("end_date", function() {
+            // Ensure country is set before calculating duration
+            ensureCountryAndApprover(function() {
+                displayDuration();
+            });
+        });
+        
+        g_form.onChange("country", displayDuration);
+        g_form.onChange("is_half_day", displayDuration);
+        g_form.onChange("half_day_period", displayDuration);
+    } catch (ex) {
+        console.error('Error in onLoad script:', ex);
+    }
+    
+    function ensureCountryAndApprover(callback) {
+        // Check if country and approver are set
+        var country = g_form.getValue('country');
+        var approver = g_form.getValue('approver');
+        
+        if (!country || !approver) {
+            // Wait a bit for business rules to set these values
+            setTimeout(function() {
+                // Check again
+                if (!g_form.getValue('country') || !g_form.getValue('approver')) {
+                    // Still not set, show warning
+                    validateFields();
+                }
+                
+                // Continue with callback regardless
+                if (callback) callback();
+            }, 1000);
+        } else {
+            // Already set, proceed immediately
+            if (callback) callback();
+        }
+    }
+    
+    function validateFields() {
+        try {
+            // Get current values
+            var country = g_form.getValue('country');
+            var approver = g_form.getValue('approver');
+            
+            // Check if either field is not set
+            if (!country || !approver) {
+                // Create validation message
+                var message = "Warning: Required fields not set:\n\n";
+                
+                if (!country) {
+                    message += "• Country is not set\n";
+                }
+                
+                if (!approver) {
+                    message += "• Approver is not set\n";
+                }
+                
+                message += "\nPlease contact your system administrator.";
+                
+                // Show popup message
+                alert(message);
+            }
+        } catch (ex) {
+            console.error('Error validating fields:', ex);
+        }
+    }
+    
+    function displayDuration() {
+        try {
+            // Get start and end dates
+            var startDate = g_form.getValue('start_date');
+            var endDate = g_form.getValue('end_date');
+            var country = g_form.getValue('country');
+            
+            if (!startDate || !endDate || !country) {
+                console.log('Missing required fields for duration calculation');
+                return;
+            }
+            
+            // Get current duration value
+            var duration = g_form.getValue('duration');
+            
+            // If duration exists, display it prominently
+            if (duration) {
+                var durationValue = parseFloat(duration);
+                var durationText = durationValue == 1 ? "1 day" : durationValue + " days";
+                
+                // Add duration message
+                g_form.addInfoMessage("Leave duration: " + durationText);
+            }
+        } catch (ex) {
+            console.error('Error displaying duration:', ex);
+        }
+    }
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 09:17:57</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>8556aeddc3cf6210a7f1b813e40131f9</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>Validate Country and approver</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_client_8556aeddc3cf6210a7f1b813e40131f9</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 10:21:23</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <type>onLoad</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

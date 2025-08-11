@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1800027_leve_sys.LeaveBalanceManager</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description>Manages leave balance operations including annual resets and carry-forward calculations</description>
+        <mobile_callable>false</mobile_callable>
+        <name>LeaveBalanceManager</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var LeaveBalanceManager = Class.create();
+LeaveBalanceManager.prototype = {
+    initialize: function() {
+        this.balanceTable = 'x_1800027_leve_sys_leave_balance';
+        this.leaveTypeTable = 'x_1800027_leve_sys_leave_type';
+    },
+    
+    resetAnnualBalances: function() {
+        var result = {
+            success: true,
+            message: '',
+            updated: 0,
+            errors: 0
+        };
+        
+        try {
+            // Get all leave types
+            var leaveTypes = {};
+            var leaveTypeGR = new GlideRecordSecure(this.leaveTypeTable);
+            leaveTypeGR.query();
+            while (leaveTypeGR.next()) {
+                leaveTypes[leaveTypeGR.getUniqueValue()] = {
+                    name: leaveTypeGR.name.toString(),
+                    default_balance: parseFloat(leaveTypeGR.default_annual_entitlement.toString()) || 0,
+                    carry_forward_allowed: leaveTypeGR.carry_forward_allowed.toString() === 'true',
+                    max_carry_forward: parseFloat(leaveTypeGR.max_carry_forward.toString()) || 0
+                };
+            }
+            
+            // Process all employees with leave balances
+            var balanceGR = new GlideRecordSecure(this.balanceTable);
+            balanceGR.query();
+            
+            while (balanceGR.next()) {
+                try {
+                    var leaveTypeId = balanceGR.leave_type.toString();
+                    var leaveType = leaveTypes[leaveTypeId];
+                    
+                    if (!leaveType) {
+                        continue;
+                    }
+                    
+                    // Apply reset policy
+                    var currentBalance = parseFloat(balanceGR.available_balance.toString()) || 0;
+                    var newBalance = leaveType.default_balance;
+                    var carryForward = 0;
+                    
+                    // Apply carry-forward if allowed
+                    if (leaveType.carry_forward_allowed && currentBalance > 0) {
+                        carryForward = Math.min(currentBalance, leaveType.max_carry_forward);
+                        newBalance += carryForward;
+                    }
+                    
+                    // Update balance
+                    balanceGR.carry_forward_balance = carryForward;
+                    balanceGR.available_balance = newBalance;
+                    balanceGR.last_reset_date = new GlideDateTime();
+                    balanceGR.update();
+                    
+                    result.updated++;
+                } catch (e) {
+                    result.errors++;
+                    gs.error("Error updating leave balance: " + e);
+                }
+            }
+            
+            result.message = "Successfully updated " + result.updated + " leave balances with " + result.errors + " errors.";
+        } catch (e) {
+            result.success = false;
+            result.message = "Error updating leave balances: " + e;
+            gs.error(result.message);
+        }
+        
+        return result;
+    },
+    
+    createMissingBalances: function() {
+        var result = {
+            success: true,
+            message: '',
+            created: 0,
+            errors: 0
+        };
+        
+        try {
+            // Get all leave types
+            var leaveTypes = [];
+            var leaveTypeGR = new GlideRecordSecure(this.leaveTypeTable);
+            leaveTypeGR.query();
+            while (leaveTypeGR.next()) {
+                leaveTypes.push({
+                    sys_id: leaveTypeGR.getUniqueValue(),
+                    name: leaveTypeGR.name.toString(),
+                    default_balance: parseFloat(leaveTypeGR.default_annual_entitlement.toString()) || 0
+                });
+            }
+            
+            // Get all active employees
+            var userGR = new GlideRecordSecure('sys_user');
+            userGR.addActiveQuery();
+            userGR.query();
+            
+            while (userGR.next()) {
+                var userId = userGR.getUniqueValue();
+                
+                // For each leave type, check if balance exists
+                for (var i = 0; i < leaveTypes.length; i++) {
+                    var leaveType = leaveTypes[i];
+                    
+                    // Check if balance exists
+                    var balanceGR = new GlideRecordSecure(this.balanceTable);
+                    balanceGR.addQuery('employee', userId);
+                    balanceGR.addQuery('leave_type', leaveType.sys_id);
+                    balanceGR.query();
+                    
+                    if (!balanceGR.next()) {
+                        // Create new balance
+                        try {
+                            balanceGR = new GlideRecordSecure(this.balanceTable);
+                            balanceGR.initialize();
+                            balanceGR.employee = userId;
+                            balanceGR.leave_type = leaveType.sys_id;
+                            balanceGR.available_balance = leaveType.default_balance;
+                            balanceGR.carry_forward_balance = 0;
+                            balanceGR.last_reset_date = new GlideDateTime();
+                            balanceGR.insert();
+                            
+                            result.created++;
+                        } catch (e) {
+                            result.errors++;
+                            gs.error("Error creating leave balance: " + e);
+                        }
+                    }
+                }
+            }
+            
+            result.message = "Successfully created " + result.created + " leave balances with " + result.errors + " errors.";
+        } catch (e) {
+            result.success = false;
+            result.message = "Error creating leave balances: " + e;
+            gs.error(result.message);
+        }
+        
+        return result;
+    },
+    
+    type: 'LeaveBalanceManager'
+};]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-28 18:06:45</sys_created_on>
+        <sys_id>dca417cdc38f2210a7f1b813e401319f</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>LeaveBalanceManager</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_include_dca417cdc38f2210a7f1b813e401319f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-28 18:19:43</sys_updated_on>
+    </sys_script_include>
+</record_update>

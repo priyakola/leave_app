@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script_client">
+    <sys_script_client action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <applies_extended>false</applies_extended>
+        <condition/>
+        <description/>
+        <field>country</field>
+        <global>true</global>
+        <isolate_script>true</isolate_script>
+        <messages/>
+        <name>calculate duration for country</name>
+        <order/>
+        <script><![CDATA[function onChange(control, oldValue, newValue, isLoading) {
+    if (isLoading || newValue === '') {
+        return;
+    }
+    
+    try {
+        var startDate = g_form.getValue('start_date');
+        var endDate = g_form.getValue('end_date');
+        
+        if (!startDate || !endDate) {
+            return;
+        }
+        
+        // First get the country for the user
+        getCountryForUser(function(countryId) {
+            // Then calculate duration with the country
+            calculateDurationWithCountry(countryId);
+        });
+    } catch (ex) {
+        console.error('Error in duration calculation:', ex);
+    }
+    
+    function getCountryForUser(callback) {
+        var userId = g_form.getValue('requested_by');
+        
+        var ga = new GlideAjax('HolidayAjax');
+        ga.addParam('sysparm_name', 'getUserCountry');
+        ga.addParam('sysparm_user_id', userId);
+        
+        ga.getXML(function(response) {
+            var countryId = response.responseXML.documentElement.getAttribute("answer");
+            if (countryId) {
+                // Set the country field in the database
+                g_form.setValue('country', countryId);
+                console.log('Country set to: ' + countryId);
+                
+                if (callback) callback(countryId);
+            } else {
+                console.log('Could not determine country');
+                if (callback) callback('');
+            }
+        });
+    }
+    
+    function calculateDurationWithCountry(countryId) {
+        var ga = new GlideAjax('HolidayAjax');
+        ga.addParam('sysparm_name', 'calculateDuration');
+        ga.addParam('sysparm_start_date', g_form.getValue('start_date'));
+        ga.addParam('sysparm_end_date', g_form.getValue('end_date'));
+        ga.addParam('sysparm_country', countryId);
+        ga.addParam('sysparm_half_day', g_form.getValue('is_half_day'));
+        
+        ga.getXML(function(response) {
+            var duration = response.responseXML.documentElement.getAttribute("answer");
+            if (duration) {
+                // Set the duration field in the database
+                g_form.setValue('duration', duration);
+                
+                // Display duration message
+                var durationValue = parseFloat(duration);
+                var durationText = durationValue == 1 ? "1 day" : durationValue + " days";
+                
+                // Remove any existing duration messages
+                var messages = g_form.getMessages();
+                for (var key in messages) {
+                    if (messages[key].text && messages[key].text.indexOf('Leave duration:') === 0) {
+                        g_form.clearMessage(key);
+                    }
+                }
+                
+                // Add new duration message
+                g_form.addInfoMessage("Leave duration: " + durationText);
+            }
+        });
+    }
+}]]></script>
+        <sys_class_name>sys_script_client</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 09:00:13</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>e835517ec3b2a610a7f1b813e4013145</sys_id>
+        <sys_mod_count>8</sys_mod_count>
+        <sys_name>calculate duration for country</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_client_e835517ec3b2a610a7f1b813e4013145</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 10:35:09</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <type>onChange</type>
+        <ui_type>10</ui_type>
+        <view/>
+    </sys_script_client>
+</record_update>

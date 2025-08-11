@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="DELETE">
+        <access>package_private</access>
+        <active>true</active>
+        <api_name>x_1800027_leve_sys.LeaveApprovalUtils</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <mobile_callable>false</mobile_callable>
+        <name>LeaveApprovalUtils</name>
+        <sandbox_callable>false</sandbox_callable>
+        <script><![CDATA[var LeaveApprovalUtils = Class.create();
+LeaveApprovalUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+    approveLeave: function() {
+        try {
+            var sysId = this.getParameter('sysparm_sys_id');
+            var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+            if (gr.get(sysId)) {
+                gr.setWorkflow(false);
+                gr.status = 'approved';
+                if (gr.update()) {
+                    return 'Leave request approved successfully';
+                }
+                return 'Error: ' + gr.getLastErrorMessage();
+            }
+            return 'Error: Record not found';
+        } catch(ex) {
+            return 'Error: ' + ex.message;
+        }
+    },
+    type: 'LeaveApprovalUtils'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 13:43:25</sys_created_on>
+        <sys_id>c9f24056c336e210a7f1b813e40131ff</sys_id>
+        <sys_mod_count>1</sys_mod_count>
+        <sys_name>LeaveApprovalUtils</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_script_include_c9f24056c336e210a7f1b813e40131ff</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:46:57</sys_updated_on>
+    </sys_script_include>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_script_include_c9f24056c336e210a7f1b813e40131ff</name>
+        <payload>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;record_update table="sys_script_include"&gt;&lt;sys_script_include action="INSERT_OR_UPDATE"&gt;&lt;access&gt;package_private&lt;/access&gt;&lt;active&gt;true&lt;/active&gt;&lt;api_name&gt;x_1800027_leve_sys.LeaveApprovalUtils&lt;/api_name&gt;&lt;caller_access/&gt;&lt;client_callable&gt;true&lt;/client_callable&gt;&lt;description/&gt;&lt;mobile_callable&gt;false&lt;/mobile_callable&gt;&lt;name&gt;LeaveApprovalUtils&lt;/name&gt;&lt;sandbox_callable&gt;false&lt;/sandbox_callable&gt;&lt;script&gt;&lt;![CDATA[var LeaveApprovalUtils = Class.create();
+LeaveApprovalUtils.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+    approveLeave: function() {
+        try {
+            var sysId = this.getParameter('sysparm_sys_id');
+            var gr = new GlideRecord('x_1800027_leve_sys_leave_request');
+            if (gr.get(sysId)) {
+                gr.setWorkflow(false);
+                gr.status = 'approved';
+                if (gr.update()) {
+                    return 'Leave request approved successfully';
+                }
+                return 'Error: ' + gr.getLastErrorMessage();
+            }
+            return 'Error: Record not found';
+        } catch(ex) {
+            return 'Error: ' + ex.message;
+        }
+    },
+    type: 'LeaveApprovalUtils'
+});]]&gt;&lt;/script&gt;&lt;sys_class_name&gt;sys_script_include&lt;/sys_class_name&gt;&lt;sys_created_by&gt;admin&lt;/sys_created_by&gt;&lt;sys_created_on&gt;2025-07-19 13:43:25&lt;/sys_created_on&gt;&lt;sys_id&gt;c9f24056c336e210a7f1b813e40131ff&lt;/sys_id&gt;&lt;sys_mod_count&gt;1&lt;/sys_mod_count&gt;&lt;sys_name&gt;LeaveApprovalUtils&lt;/sys_name&gt;&lt;sys_package display_value="Leave Management System" source="x_1800027_leve_sys"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_package&gt;&lt;sys_policy&gt;read&lt;/sys_policy&gt;&lt;sys_scope display_value="Leave Management System"&gt;9b184465c3beaa10a7f1b813e4013155&lt;/sys_scope&gt;&lt;sys_update_name&gt;sys_script_include_c9f24056c336e210a7f1b813e40131ff&lt;/sys_update_name&gt;&lt;sys_updated_by&gt;admin&lt;/sys_updated_by&gt;&lt;sys_updated_on&gt;2025-07-19 13:46:57&lt;/sys_updated_on&gt;&lt;/sys_script_include&gt;&lt;/record_update&gt;</payload>
+        <payload_hash>-1383652939</payload_hash>
+        <record_name>LeaveApprovalUtils</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-19 13:46:57</sys_created_on>
+        <sys_id>57140096c336e210a7f1b813e40131ac</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>19822f01ae70000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-19 13:46:57</sys_updated_on>
+        <type>Script Include</type>
+        <update_guid>9b1400966236e21094d5a38c261c2dab</update_guid>
+        <update_guid_history>9b1400966236e21094d5a38c261c2dab:-1383652939,33434856ea36e2107040f477b114a0dc:1504319770</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-21 08:43:18</sys_created_on>
+        <sys_db_object display_value="" name="sys_script_include">sys_script_include</sys_db_object>
+        <sys_id>552d502ce3db4e8aae40884217cc40c4</sys_id>
+        <sys_metadata>c9f24056c336e210a7f1b813e40131ff</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>LeaveApprovalUtils</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy>read</sys_policy>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_script_include_c9f24056c336e210a7f1b813e40131ff</sys_update_name>
+        <sys_update_version display_value="sys_script_include_c9f24056c336e210a7f1b813e40131ff">57140096c336e210a7f1b813e40131ac</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-21 08:43:18</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

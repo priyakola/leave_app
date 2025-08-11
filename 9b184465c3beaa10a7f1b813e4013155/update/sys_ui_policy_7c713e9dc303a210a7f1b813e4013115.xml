@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_ui_policy">
+    <sys_ui_policy action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <conditions/>
+        <description/>
+        <global>true</global>
+        <inherit>false</inherit>
+        <isolate_script>true</isolate_script>
+        <model_id/>
+        <model_table/>
+        <on_load>true</on_load>
+        <order>100</order>
+        <reverse_if_false>true</reverse_if_false>
+        <run_scripts>true</run_scripts>
+        <script_false><![CDATA[function onCondition() {
+
+}]]></script_false>
+        <script_true><![CDATA[function onCondition() {
+    // Get current user
+    var currentUser = g_user.userID;
+    
+    // Get approver from the form
+    var approver = g_form.getValue('approver');
+    
+    // Hide approval buttons if user is not the approver
+    if (currentUser != approver) {
+        // Hide approval buttons/fields as appropriate for your form
+        g_form.setDisplay('approve_button', false);
+        g_form.setDisplay('reject_button', false);
+    }
+}]]></script_true>
+        <set_values/>
+        <short_description>show approval button to manager</short_description>
+        <sys_class_name>sys_ui_policy</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 10:06:30</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>7c713e9dc303a210a7f1b813e4013115</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>show approval button to manager</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_ui_policy_7c713e9dc303a210a7f1b813e4013115</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 10:06:30</sys_updated_on>
+        <table>x_1800027_leve_sys_leave_request</table>
+        <ui_type>0</ui_type>
+        <view/>
+    </sys_ui_policy>
+</record_update>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl">
+    <sys_security_acl action="DELETE">
+        <active>true</active>
+        <admin_overrides>true</admin_overrides>
+        <advanced>false</advanced>
+        <applies_to/>
+        <condition/>
+        <controlled_by_refs/>
+        <decision_type>allow</decision_type>
+        <description/>
+        <local_or_existing>Local</local_or_existing>
+        <name>Leave Balance Manager</name>
+        <operation display_value="execute">execute</operation>
+        <script/>
+        <security_attribute/>
+        <sys_class_name>sys_security_acl</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-28 18:06:46</sys_created_on>
+        <sys_id>70e55b41c3cf2210a7f1b813e4013190</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Leave Balance Manager</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_update_name>sys_security_acl_70e55b41c3cf2210a7f1b813e4013190</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-28 18:06:46</sys_updated_on>
+        <type display_value="client_callable_script_include">client_callable_script_include</type>
+    </sys_security_acl>
+    <sys_update_version action="INSERT_OR_UPDATE">
+        <action>DELETE</action>
+        <application display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</application>
+        <file_path/>
+        <instance_id>77ceb617fb135ad452b0f3585eefdcac</instance_id>
+        <instance_name>dev293426</instance_name>
+        <name>sys_security_acl_70e55b41c3cf2210a7f1b813e4013190</name>
+        <payload><![CDATA[<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_security_acl"><sys_security_acl action="INSERT_OR_UPDATE"><active>true</active><admin_overrides>true</admin_overrides><advanced>false</advanced><applies_to/><condition/><controlled_by_refs/><decision_type>allow</decision_type><description/><local_or_existing>Local</local_or_existing><name>Leave Balance Manager</name><operation display_value="execute">execute</operation><script/><security_attribute/><sys_class_name>sys_security_acl</sys_class_name><sys_created_by>admin</sys_created_by><sys_created_on>2025-07-28 18:06:46</sys_created_on><sys_id>70e55b41c3cf2210a7f1b813e4013190</sys_id><sys_mod_count>0</sys_mod_count><sys_name>Leave Balance Manager</sys_name><sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package><sys_policy/><sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope><sys_update_name>sys_security_acl_70e55b41c3cf2210a7f1b813e4013190</sys_update_name><sys_updated_by>admin</sys_updated_by><sys_updated_on>2025-07-28 18:06:46</sys_updated_on><type display_value="client_callable_script_include">client_callable_script_include</type></sys_security_acl></record_update>]]></payload>
+        <payload_hash>-2077756111</payload_hash>
+        <record_name>Leave Balance Manager</record_name>
+        <reverted_from/>
+        <source>687416bdc3b66210a7f1b813e40131fd</source>
+        <source_table>sys_update_set</source_table>
+        <state>current</state>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-28 18:06:46</sys_created_on>
+        <sys_id>78e51f41c3cf2210a7f1b813e40131e3</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_recorded_at>198523734080000001</sys_recorded_at>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-28 18:06:46</sys_updated_on>
+        <type>Access Control</type>
+        <update_guid>70e55b4101cf2210625664d78d6ff895</update_guid>
+        <update_guid_history>70e55b4101cf2210625664d78d6ff895:-2077756111</update_guid_history>
+    </sys_update_version>
+    <sys_metadata_delete action="INSERT_OR_UPDATE">
+        <sys_audit_delete/>
+        <sys_class_name>sys_metadata_delete</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2025-07-29 06:51:27</sys_created_on>
+        <sys_db_object display_value="" name="sys_security_acl">sys_security_acl</sys_db_object>
+        <sys_id>3075edea9e424ea8927d3d11a5b1fa40</sys_id>
+        <sys_metadata>70e55b41c3cf2210a7f1b813e4013190</sys_metadata>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Leave Balance Manager</sys_name>
+        <sys_package display_value="Leave Management System" source="x_1800027_leve_sys">9b184465c3beaa10a7f1b813e4013155</sys_package>
+        <sys_parent/>
+        <sys_policy/>
+        <sys_scope display_value="Leave Management System">9b184465c3beaa10a7f1b813e4013155</sys_scope>
+        <sys_scope_delete display_value="">1d1e69031d9b45468add883701390559</sys_scope_delete>
+        <sys_update_name>sys_security_acl_70e55b41c3cf2210a7f1b813e4013190</sys_update_name>
+        <sys_update_version display_value="sys_security_acl_70e55b41c3cf2210a7f1b813e4013190">78e51f41c3cf2210a7f1b813e40131e3</sys_update_version>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2025-07-29 06:51:27</sys_updated_on>
+    </sys_metadata_delete>
+</record_update>

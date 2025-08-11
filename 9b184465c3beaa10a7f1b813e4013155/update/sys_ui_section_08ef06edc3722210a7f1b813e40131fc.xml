@@ -4,27 +4,13 @@
             <element>reason</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2025-07-18 11:39:17</sys_created_on>
-            <sys_id>eb4ddaf9c3f66210a7f1b813e4013104</sys_id>
+            <sys_created_on>2025-07-21 09:38:43</sys_created_on>
+            <sys_id>227e51bac3f2a610a7f1b813e40131a5</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
             <sys_ui_section caption="Reason" display_value="Reason" name="x_1800027_leve_sys_leave_request" sys_domain="global" view="Default view">08ef06edc3722210a7f1b813e40131fc</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2025-07-18 11:39:17</sys_updated_on>
-            <sys_user/>
-            <type/>
-        </sys_ui_element>
-        <sys_ui_element action="INSERT_OR_UPDATE">
-            <element>country</element>
-            <position>1</position>
-            <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2025-07-18 11:39:17</sys_created_on>
-            <sys_id>6b4ddaf9c3f66210a7f1b813e4013105</sys_id>
-            <sys_mod_count>0</sys_mod_count>
-            <sys_ui_formatter/>
-            <sys_ui_section caption="Reason" display_value="Reason" name="x_1800027_leve_sys_leave_request" sys_domain="global" view="Default view">08ef06edc3722210a7f1b813e40131fc</sys_ui_section>
-            <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2025-07-18 11:39:17</sys_updated_on>
+            <sys_updated_on>2025-07-21 09:38:43</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
